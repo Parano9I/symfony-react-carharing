@@ -35,9 +35,13 @@ class User
     #[ORM\JoinColumn(nullable: false)]
     private ?Role $role = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Car::class, orphanRemoval: true)]
+    private Collection $cars;
+
     public function __construct()
     {
         $this->role = new ArrayCollection();
+        $this->cars = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -113,6 +117,36 @@ class User
     public function setRoleId(?Role $role_id): self
     {
         $this->role = $role_id;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Car>
+     */
+    public function getCars(): Collection
+    {
+        return $this->cars;
+    }
+
+    public function addCar(Car $car): self
+    {
+        if (!$this->cars->contains($car)) {
+            $this->cars->add($car);
+            $car->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCar(Car $car): self
+    {
+        if ($this->cars->removeElement($car)) {
+            // set the owning side to null (unless already changed)
+            if ($car->getUser() === $this) {
+                $car->setUser(null);
+            }
+        }
 
         return $this;
     }
