@@ -1,0 +1,65 @@
+version: '3.3'
+
+networks:
+  symfony-crm:
+    driver: bridge
+
+volumes:
+  mysql:
+    driver: local
+
+services:
+  nginx:
+    image: nginx:latest
+    restart: unless-stopped
+    container_name: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src/:/var/www/
+      - ./dockerfiles/nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - symfony-crm
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../dockerfiles/backend/dockerfile
+    container_name: backend
+    volumes:
+      - ./:/var/www/
+    networks:
+      - symfony-crm
+
+#  frontend:
+#    build:
+#      context: ./frontend
+#      dockerfile: ../dockerfiles/frontend/dockerfile
+#    container_name: frontend
+#    restart: unless-stopped
+#    ports:
+#      - "3000:3000"
+#    volumes:
+#      - ./:/var/www/
+#      - /var/www/node_modules
+#    networks:
+#      - symfony-crm
+
+  mysql:
+    build:
+      context: .
+      dockerfile: dockerfiles/mysql/dockerfile
+    container_name: mysql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_DATABASE: 'laravel'
+      MYSQL_PASSWORD: 'root'
+    networks:
+      - symfony-crm
+    volumes:
+      - ./dockerfiles/mysql/dump:/var/lib/mysql
