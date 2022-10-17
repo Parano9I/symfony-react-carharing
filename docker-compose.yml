@@ -31,6 +31,25 @@ services:
     networks:
       - symfony-crm
 
+  mysql:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/mysql/dockerfile
+    container_name: mysql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_DATABASE: 'car_sharing'
+      MYSQL_PASSWORD: 'root'
+    networks:
+      - symfony-crm
+    volumes:
+      - ./dockerfiles/mysql/dump/:/var/lib/mysql/
+
 #  frontend:
 #    build:
 #      context: ./frontend
@@ -44,22 +63,3 @@ services:
 #      - /var/www/node_modules
 #    networks:
 #      - symfony-crm
-
-  mysql:
-    build:
-      context: .
-      dockerfile: dockerfiles/mysql/dockerfile
-    container_name: mysql
-    restart: unless-stopped
-    tty: true
-    ports:
-      - '3306:3306'
-    environment:
-      MYSQL_ROOT_PASSWORD: 'root'
-      MYSQL_ROOT_HOST: '%'
-      MYSQL_DATABASE: 'laravel'
-      MYSQL_PASSWORD: 'root'
-    networks:
-      - symfony-crm
-    volumes:
-      - ./dockerfiles/mysql/dump:/var/lib/mysql
