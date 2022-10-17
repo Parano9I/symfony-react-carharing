@@ -38,10 +38,14 @@ class User
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Car::class, orphanRemoval: true)]
     private Collection $cars;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ScheduleSharing::class)]
+    private Collection $sharings;
+
     public function __construct()
     {
         $this->role = new ArrayCollection();
         $this->cars = new ArrayCollection();
+        $this->sharings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,6 +149,36 @@ class User
             // set the owning side to null (unless already changed)
             if ($car->getUser() === $this) {
                 $car->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ScheduleSharing>
+     */
+    public function getSharings(): Collection
+    {
+        return $this->sharings;
+    }
+
+    public function addSharing(ScheduleSharing $sharing): self
+    {
+        if (!$this->sharings->contains($sharing)) {
+            $this->sharings->add($sharing);
+            $sharing->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSharing(ScheduleSharing $sharing): self
+    {
+        if ($this->sharings->removeElement($sharing)) {
+            // set the owning side to null (unless already changed)
+            if ($sharing->getUser() === $this) {
+                $sharing->setUser(null);
             }
         }
 

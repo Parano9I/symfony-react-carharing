@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CarRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CarRepository::class)]
@@ -32,6 +34,14 @@ class Car
     #[ORM\ManyToOne(inversedBy: 'cars')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\OneToMany(mappedBy: 'car', targetEntity: ScheduleSharing::class)]
+    private Collection $sharing;
+
+    public function __construct()
+    {
+        $this->sharing = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -106,6 +116,36 @@ class Car
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ScheduleSharing>
+     */
+    public function getSharing(): Collection
+    {
+        return $this->sharing;
+    }
+
+    public function addSharing(ScheduleSharing $sharing): self
+    {
+        if (!$this->sharing->contains($sharing)) {
+            $this->sharing->add($sharing);
+            $sharing->setCar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSharing(ScheduleSharing $sharing): self
+    {
+        if ($this->sharing->removeElement($sharing)) {
+            // set the owning side to null (unless already changed)
+            if ($sharing->getCar() === $this) {
+                $sharing->setCar(null);
+            }
+        }
 
         return $this;
     }
