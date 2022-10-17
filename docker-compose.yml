@@ -16,7 +16,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./src/:/var/www/
+      - ./backend/:/var/www/
       - ./dockerfiles/nginx/conf.d:/etc/nginx/conf.d
     networks:
       - symfony-crm
@@ -27,7 +27,7 @@ services:
       dockerfile: ../dockerfiles/backend/dockerfile
     container_name: backend
     volumes:
-      - ./:/var/www/
+      - ./backend/:/var/www/
     networks:
       - symfony-crm
 
@@ -40,7 +40,7 @@ services:
 #    ports:
 #      - "3000:3000"
 #    volumes:
-#      - ./:/var/www/
+#      - ./frontend/:/var/www/
 #      - /var/www/node_modules
 #    networks:
 #      - symfony-crm
