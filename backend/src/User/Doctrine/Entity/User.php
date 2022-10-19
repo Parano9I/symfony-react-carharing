@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\User\Doctrine\Entity;
 
-use App\Repository\UserRepository;
+use App\User\Doctrine\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
