@@ -15,6 +15,7 @@ class UserResource extends AbstractResource
             'last_name' => $this->lastName,
             'email' => $this->email,
             'phone' => $this->phone,
+            'roles' => $this->roles,
         ];
     }
 }

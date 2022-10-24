@@ -36,6 +36,7 @@ class UserService implements UserServiceInterface
         $user->setLastName($data['last_name']);
         $user->setEmail($data['email']);
         $user->setPhone($data['phone']);
+        $user->setRoles($user->getRoles());
         $user->setPassword($this->hashedPassword($data['password'], $user));
 
         $this->userRepository->save($user, true);
