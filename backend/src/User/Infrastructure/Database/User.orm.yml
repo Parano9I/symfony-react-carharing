@@ -1,0 +1,26 @@
+App\User\Domain\Entity\User:
+  type: entity
+  table: users
+  repositoryClass: App\User\Infrastructure\Repository\UserRepository
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    first_name:
+      type: string
+      length: 100
+    last_name:
+      type: string
+      length: 100
+    email:
+      type: string
+      length: 150
+      unique: true
+    password:
+      type: string
+      length: 255
+    phone:
+      type: string
+      length: 12

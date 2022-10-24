@@ -1,0 +1,10 @@
+api_login_check:
+  path: /api/login_check
+  controller: App\User\Api\Controller\AuthController::getUserToken
+
+auth_controllers:
+  resource: App\User\Infrastructure\Controller\AuthController
+  type: annotation
+user_controller:
+  resource: App\User\Infrastructure\Controller\UserController
+  type: annotation

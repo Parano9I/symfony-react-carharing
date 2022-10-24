@@ -1,3 +1,3 @@
-user_controllers:
-  resource: ../../src/User/Api/Controller
-  type: annotation
+#user_controllers:
+#  resource: App\UserTest\Api\Controller\AuthController
+#  type: annotation
