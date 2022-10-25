@@ -44,6 +44,11 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
     {
         return $this->findOneBy(['email' => $email]);
     }
+
+    public function getAll() {
+        return $this->findAll();
+    }
+
     //    /**
 //     * @return User[] Returns an array of User objects
 //     */

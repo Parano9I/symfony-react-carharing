@@ -44,5 +44,13 @@ class UserController extends AbstractController
             'authorization' => $token
         ]);
     }
+
+    #[Route('/api/admin/users/', methods: ['GET'])]
+    public function getAll()
+    {
+        dd($this->isGranted('ROLE_USER'));
+
+        $this->userService->getAll();
+    }
 }
 
