@@ -3,6 +3,7 @@
 namespace App\User\Domain\Service;
 
 use App\Entity\User;
+use App\User\Infrastructure\Resource\UserResource;
 use Symfony\Component\PasswordHasher\Exception\InvalidPasswordException;
 
 interface UserServiceInterface

@@ -5,6 +5,7 @@ namespace App\User\Infrastructure\Service;
 use App\Entity\User;
 use App\User\Domain\Repository\UserRepositoryInterface;
 use App\User\Domain\Service\UserServiceInterface;
+use App\User\Infrastructure\Resource\UserResource;
 use Symfony\Component\PasswordHasher\Exception\InvalidPasswordException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
@@ -66,7 +67,8 @@ class UserService implements UserServiceInterface
     public function getAll(): array
     {
         $users = $this->userRepository->getAll();
+        $resource = new UserResource();
 
-        dd($users);
+        return array_map(fn($user) => $resource($user), $users);
     }
 }

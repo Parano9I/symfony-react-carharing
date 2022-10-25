@@ -10,3 +10,6 @@ auth_controllers:
 user_controller:
   resource: App\User\Infrastructure\Controller\UserController
   type: annotation
+admin_controller:
+  resource: App\User\Infrastructure\Controller\AdminController
+  type: annotation

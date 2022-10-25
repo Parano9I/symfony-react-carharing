@@ -48,9 +48,7 @@ class UserController extends AbstractController
     #[Route('/api/admin/users/', methods: ['GET'])]
     public function getAll()
     {
-        dd($this->isGranted('ROLE_USER'));
-
-        $this->userService->getAll();
+        return $this->json($this->userService->getAll());
     }
 }
 
