@@ -40,14 +40,10 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         }
     }
 
-    public function checkExistByEmail(string $email): bool
+    public function getByEmail(string $email): ?User
     {
-        $user = $this->findOneBy(['email' => $email]);
-
-        return isset($user);
+        return $this->findOneBy(['email' => $email]);
     }
-
-
     //    /**
 //     * @return User[] Returns an array of User objects
 //     */
@@ -60,8 +56,8 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
 //            ->setMaxResults(10)
 //            ->getQuery()
 //            ->getResult()
-//        ;
 
+//        ;
 //    }
 //    public function findOneBySomeField($value): ?User
 //    {
