@@ -20,22 +20,25 @@ security:
         property: email
 
   firewalls:
-    login:
-      pattern: ^/api/auth/login
-      stateless: true
-      json_login:
-        check_path: /api/auth/login_check
-        success_handler: lexik_jwt_authentication.handler.authentication_success
-        failure_handler: lexik_jwt_authentication.handler.authentication_failure
-
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
     api:
       pattern: ^/api
       stateless: true
+      entry_point: jwt
+      json_login:
+        check_path: api_login_check
+        success_handler: lexik_jwt_authentication.handler.authentication_success
+        failure_handler: lexik_jwt_authentication.handler.authentication_failure
       jwt: ~
+      refresh_jwt:
+        check_path: gesdinet_jwt_refresh_token
 
   access_control:
-    - { path: ^/api$,       roles: PUBLIC_ACCESS }
-    - { path: ^/api/admin$, roles: ROLE_ADMIN }
-    - { path: ^/api/tenant$, roles: ROLE_TENANT }
-    - { path: ^/api/lessor$, roles: ROLE_LESSOR }
+    - { path: ^/api$,             roles: PUBLIC_ACCESS }
+    - { path: ^/api/auth/logout,  roles: ROLE_USER }
+    - { path: ^/api/admin$,       roles: ROLE_ADMIN }
+    - { path: ^/api/tenant$,      roles: ROLE_TENANT }
+    - { path: ^/api/lessor$,      roles: ROLE_LESSOR }
 

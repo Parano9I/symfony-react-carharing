@@ -4,36 +4,42 @@ namespace App\User\Infrastructure\Service;
 
 use App\Entity\User;
 use App\User\Domain\Service\AuthServiceInterface;
+use Gesdinet\JWTRefreshTokenBundle\Exception\UnknownUserFromRefreshTokenException;
+use Gesdinet\JWTRefreshTokenBundle\Model\RefreshTokenManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\Http\Authentication\AuthenticationSuccessHandler;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class AuthService implements AuthServiceInterface
 {
 
     public function __construct(
         private AuthenticationSuccessHandler $successHandler,
+        private RefreshTokenManagerInterface $refreshTokenManager,
     ) {
     }
 
     public function login(User $user): array
     {
         $data = $this->successHandler->handleAuthenticationSuccess($user);
-        $token = json_decode($data->getContent())->token;
+        $tokens = json_decode($data->getContent());
 
         return [
             'type' => 'Bearer',
-            'token' => $token,
+            'access_token' => $tokens->token,
+            'refresh_token' => $tokens->refresh_token,
         ];
     }
 
-    public function logout(User $user)
+    public function logout(User $user): ?UnknownUserFromRefreshTokenException
     {
-        return null;
-    }
+        $email = $user->getEmail();
+        $token = $this->refreshTokenManager->getLastFromUsername($email);
 
-    public function refreshToken(string $token)
-    {
+        if (is_null($token)) {
+            throw new UnknownUserFromRefreshTokenException('Refresh token not found', 422);
+        }
+
+        $this->refreshTokenManager->delete($token);
+
         return null;
     }
 }

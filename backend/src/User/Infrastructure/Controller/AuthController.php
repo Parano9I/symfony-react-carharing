@@ -6,21 +6,22 @@ use App\User\Domain\Service\AuthServiceInterface;
 use App\User\Domain\Service\UserServiceInterface;
 use App\User\Infrastructure\Request\LoginRequest;
 use App\User\Infrastructure\Resource\UserResource;
+use Gesdinet\JWTRefreshTokenBundle\Exception\UnknownUserFromRefreshTokenException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\PasswordHasher\Exception\InvalidPasswordException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 
+
 class AuthController extends AbstractController
 {
 
     public function __construct(
         private UserServiceInterface $userService,
-        private AuthServiceInterface $authService
+        private AuthServiceInterface $authService,
     ) {
     }
-
 
     #[Route('/api/auth/login', methods: ['POST'])]
     public function login(LoginRequest $request, UserResource $resource): JsonResponse
@@ -49,6 +50,22 @@ class AuthController extends AbstractController
             'user' => $resource($user),
             'authorization' => $token
         ]);
+    }
+
+    #[Route('/api/auth/logout', methods: ['GET'])]
+    public function logout(): JsonResponse
+    {
+        try {
+            $user = $this->getUser();
+            $this->authService->logout($user);
+        } catch (UnknownUserFromRefreshTokenException $exception) {
+            return $this->json([
+                'status' => 'error',
+                'message' => $exception->getMessage()
+            ], $exception->getCode());
+        }
+
+        return $this->json(['status' => 'success']);
     }
 }
 
