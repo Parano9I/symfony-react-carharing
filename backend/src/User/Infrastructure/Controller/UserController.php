@@ -2,15 +2,12 @@
 
 namespace App\User\Infrastructure\Controller;
 
-use App\Entity\User;
 use App\User\Domain\Service\AuthServiceInterface;
 use App\User\Domain\Service\UserServiceInterface;
 use App\User\Infrastructure\Request\RegistrationRequest;
 use App\User\Infrastructure\Resource\UserResource;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\PasswordHasher\Exception\InvalidPasswordException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 
