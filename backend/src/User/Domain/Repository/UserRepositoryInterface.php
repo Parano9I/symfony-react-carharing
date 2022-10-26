@@ -3,6 +3,7 @@
 namespace App\User\Domain\Repository;
 
 use App\Entity\User;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 interface UserRepositoryInterface
 {
