@@ -2,24 +2,23 @@
 
 namespace App\Car\Application\DTO;
 
-use Symfony\Component\Security\Core\User\UserInterface;
-
 class CarDTO
 {
-    public function __construct(
-        public string $model,
+    public string $model;
 
-        public string $manufacturer,
+    public string $manufacturer;
 
-        public ?string $image,
+    public ?string $image = null;
 
-        public string $fuelType,
+    public string $fuelType;
 
-        public string $transmissionType,
+    public string $transmissionType;
 
-        public int $passengersNumber,
+    public int $passengersNumber;
 
-        public float $engineCapacity,
-    ) {
+    public float $engineCapacity;
+
+    public function __construct()
+    {
     }
 }

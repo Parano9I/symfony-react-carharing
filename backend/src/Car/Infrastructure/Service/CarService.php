@@ -16,15 +16,16 @@ class CarService implements CarServiceInterface
     ) {
     }
 
-    public function create(CarDTO $carDTO, UserInterface $user): int
+    public function create(CarDTO $dto, UserInterface $user): int
     {
         $car = new Car();
 
-        $car->setModel($carDTO->model);
-        $car->setManufacturer($carDTO->manufacturer);
-        $car->setTransmissionType($carDTO->transmissionType);
-        $car->setFuelType($carDTO->fuelType);
-        $car->setEngineCapacity($carDTO->engineCapacity);
+        $car->setModel($dto->model);
+        $car->setManufacturer($dto->manufacturer);
+        $car->setTransmissionType($dto->transmissionType);
+        $car->setFuelType($dto->fuelType);
+        $car->setEngineCapacity($dto->engineCapacity);
+        $car->setPassengersNumber($dto->passengersNumber);
         $car->setUser($user);
 
         $this->carRepository->save($car, true);

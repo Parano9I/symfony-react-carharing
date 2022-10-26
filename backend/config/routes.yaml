@@ -13,3 +13,10 @@ user_controller:
 admin_controller:
   resource: App\User\Infrastructure\Controller\AdminController
   type: annotation
+
+car_controller:
+  resource: App\Car\Infrastructure\Controller\CarController
+  type: annotation
+lessor_car_controller:
+  resource: App\Car\Infrastructure\Controller\LessorCarController
+  type: annotation

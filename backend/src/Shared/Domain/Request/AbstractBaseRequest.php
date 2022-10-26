@@ -14,20 +14,23 @@ abstract class AbstractBaseRequest
     {
         $this->validator = $validator;
 
-        $this->createProperty();
+        $this->createProperty($this, $this->getRequest()->toArray());
 
         if ($this->autoValidateRequest()) {
             $this->validate();
         }
     }
 
-    protected function createProperty(): void
+    protected function createProperty(object $ctx, array $data): object
     {
-        foreach ($this->getRequest()->toArray() as $property => $value) {
-            if (property_exists($this, $property)) {
-                $this->{$property} = $value;
+        foreach ($data as $property => $value) {
+            if (property_exists($ctx, $property)) {
+                $propertyName = str_replace(' ', '', $property);
+                $ctx->{$propertyName} = $value;
             }
         }
+        
+        return $ctx;
     }
 
     public function getRequest(): Request
@@ -40,11 +43,11 @@ abstract class AbstractBaseRequest
         return true;
     }
 
-    public function validate()
+    public function validate(object $dto = null): array|object
     {
         $errors = $this->validator->validate($this);
         $messages = ['message' => 'validation_failed', 'errors' => []];
-
+    
         foreach ($errors as $error) {
             $messages['errors'][] = [
                 'property' => $error->getPropertyPath(),
@@ -59,8 +62,11 @@ abstract class AbstractBaseRequest
 
             exit();
         }
+        
+        if(!is_null($dto)){
+            return $this->createProperty($dto, $this->getRequest()->toArray());
+        }
 
         return $this->getRequest();
-
     }
 }
