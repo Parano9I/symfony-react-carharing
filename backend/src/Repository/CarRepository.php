@@ -51,6 +51,11 @@ class CarRepository extends ServiceEntityRepository implements CarRepositoryInte
         return $this->findBy(['id' => 1]);
     }
 
+    public function getById(int $id): ?Car
+    {
+        return $this->findOneBy(['id' => $id]);
+    }
+
 
 
     //    /**
