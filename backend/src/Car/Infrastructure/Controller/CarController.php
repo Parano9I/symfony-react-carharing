@@ -12,7 +12,7 @@ class CarController extends AbstractController
     public function __construct(
         private CarServiceInterface $carService
     )
-    {
+        {
     }
 
     #[Route('/api/cars/', methods: ['GET'])]

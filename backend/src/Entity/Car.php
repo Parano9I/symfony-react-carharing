@@ -30,7 +30,7 @@ class Car
     private ?string $image = null;
 
     #[ORM\JoinColumn(nullable: false)]
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'cars')]
     private UserInterface $user;
 
     #[ORM\Column(type: 'string', length: 100)]
