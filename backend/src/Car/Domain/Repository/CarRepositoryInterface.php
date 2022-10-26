@@ -14,4 +14,6 @@ interface CarRepositoryInterface
     public function getAll(): array;
 
     public function getAllByUser(User $user): array;
+
+    public function getById(int $id): ?Car;
 }
