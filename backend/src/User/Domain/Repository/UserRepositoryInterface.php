@@ -10,6 +10,7 @@ interface UserRepositoryInterface
 
     public function remove(User $entity, bool $flush = false): void;
 
-    public function checkExistByEmail(string $email): bool;
+    public function getByEmail(string $email): ?User;
 
+    public function getAll();
 }

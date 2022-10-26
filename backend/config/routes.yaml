@@ -1,10 +1,15 @@
 api_login_check:
-  path: /api/login_check
-  controller: App\User\Api\Controller\AuthController::getUserToken
+  path: /api/auth/login_check
+
+gesdinet_jwt_refresh_token:
+  path:       /api/token/refresh
 
 auth_controllers:
   resource: App\User\Infrastructure\Controller\AuthController
   type: annotation
 user_controller:
   resource: App\User\Infrastructure\Controller\UserController
+  type: annotation
+admin_controller:
+  resource: App\User\Infrastructure\Controller\AdminController
   type: annotation
