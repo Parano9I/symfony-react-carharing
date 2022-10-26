@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Car\Domain\Repository\CarRepositoryInterface;
 use App\Entity\Car;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -45,7 +46,14 @@ class CarRepository extends ServiceEntityRepository implements CarRepositoryInte
         return $this->findAll();
     }
 
-//    /**
+    public function getAllByUser(User $user): array
+    {
+        return $this->findBy(['id' => 1]);
+    }
+
+
+
+    //    /**
 //     * @return Car[] Returns an array of Car objects
 //     */
 //    public function findByExampleField($value): array
@@ -58,8 +66,8 @@ class CarRepository extends ServiceEntityRepository implements CarRepositoryInte
 //            ->getQuery()
 //            ->getResult()
 //        ;
-//    }
 
+//    }
 //    public function findOneBySomeField($value): ?Car
 //    {
 //        return $this->createQueryBuilder('c')

@@ -1,7 +1,9 @@
 <?php
+
 namespace App\Car\Domain\Repository;
 
 use App\Entity\Car;
+use App\Entity\User;
 
 interface CarRepositoryInterface
 {
@@ -9,5 +11,7 @@ interface CarRepositoryInterface
 
     public function remove(Car $entity, bool $flush = false): void;
 
-    public function getAll():array;
+    public function getAll(): array;
+
+    public function getAllByUser(User $user): array;
 }

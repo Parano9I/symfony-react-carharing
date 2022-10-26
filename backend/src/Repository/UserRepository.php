@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\User\Domain\Repository\UserRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -60,8 +61,8 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
 //            ->orderBy('u.id', 'ASC')
 //            ->setMaxResults(10)
 //            ->getQuery()
-//            ->getResult()
 
+//            ->getResult()
 //        ;
 //    }
 //    public function findOneBySomeField($value): ?User
