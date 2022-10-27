@@ -50,16 +50,16 @@ services:
     volumes:
       - ./dockerfiles/mysql/dump/:/var/lib/mysql/
 
-#  frontend:
-#    build:
-#      context: ./frontend
-#      dockerfile: ../dockerfiles/frontend/dockerfile
-#    container_name: frontend
-#    restart: unless-stopped
-#    ports:
-#      - "3000:3000"
-#    volumes:
-#      - ./frontend/:/var/www/
-#      - /var/www/node_modules
-#    networks:
-#      - symfony-crm
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../dockerfiles/frontend/dockerfile
+    container_name: frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/:/var/www/
+      - /var/www/node_modules
+    networks:
+      - symfony-crm
