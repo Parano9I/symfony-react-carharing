@@ -60,6 +60,6 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend/:/var/www/
-      - /var/www/node_modules
+#      - /var/www/node_modules
     networks:
       - symfony-crm
