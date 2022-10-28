@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 interface InputProps {
   type?: 'password' | 'number';
@@ -17,6 +17,8 @@ const Input: FC<InputProps> = ({
   error = '',
   className = ''
 }) => {
+  const [value, setValue] = useState('');
+
   return (
     <label className={`flex flex-col pb-8 ${className}`}>
       <span>
@@ -28,6 +30,7 @@ const Input: FC<InputProps> = ({
         type={type}
         id={name}
         name={name}
+        onChange={(e) => setValue(e.target.value)}
         required={required}
       />
       <span className="text-red-800">{error}</span>

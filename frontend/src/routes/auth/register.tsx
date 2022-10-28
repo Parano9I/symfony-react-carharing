@@ -10,23 +10,44 @@ const Register: FC<RegisterPageProps> = ({}) => {
     <div className="h-screen bg-auth bg-contain bg-no-repeat">
       <Header />
       <main className="">
-        <Container className="flex grow shrink flex-col pt-20">
+        <Container className="flex grow shrink flex-col pt-10">
           <div className="w-2/5 self-end bg-white p-4 rounded-xl shadow-2xl">
             <form
               action="src/routes/auth/register"
               className="grid grid-cols-2 gap-2"
             >
               <Input
-                name="email"
-                title="Email"
+                name="first_name"
+                title="First name"
                 required={true}
                 error=""
-                className="col-span-2"
+              />
+              <Input
+                name="last_name"
+                title="Last name"
+                required={true}
+                error=""
+              />
+              <Input name="email" title="Email" required={true} error="" />
+              <Input
+                type="number"
+                name="phone"
+                title="Phone"
+                required={true}
+                error=""
               />
               <Input
                 name="password"
                 type="password"
                 title="Password"
+                required={true}
+                error=""
+                className="col-span-2"
+              />
+              <Input
+                name="confirm_password"
+                type="password"
+                title="Confirm password"
                 required={true}
                 error=""
                 className="col-span-2"
