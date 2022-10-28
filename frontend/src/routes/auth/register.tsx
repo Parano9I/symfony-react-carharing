@@ -1,18 +1,21 @@
 import { FC } from 'react';
-import Container from '../components/container/container.component';
-import Header from '../components/header/header.component';
-import Input from '../components/ui/input/input.component';
+import Container from '../../components/container/container.component';
+import Header from '../../components/header/header.component';
+import Input from '../../components/ui/input/input.component';
 
-interface LoginPageProps {}
+interface RegisterPageProps {}
 
-const Login: FC<LoginPageProps> = ({}) => {
+const Register: FC<RegisterPageProps> = ({}) => {
   return (
     <div className="h-screen bg-auth bg-contain bg-no-repeat">
       <Header />
       <main className="">
         <Container className="flex grow shrink flex-col pt-20">
           <div className="w-2/5 self-end bg-white p-4 rounded-xl shadow-2xl">
-            <form action="" className="grid grid-cols-2 gap-2">
+            <form
+              action="src/routes/auth/register"
+              className="grid grid-cols-2 gap-2"
+            >
               <Input
                 name="email"
                 title="Email"
@@ -32,7 +35,7 @@ const Login: FC<LoginPageProps> = ({}) => {
                 type="submit"
                 className="bg-orange-700 rounded-sm py-2 text-white hover:bg-orange-800"
               >
-                Login
+                Register
               </button>
             </form>
           </div>
@@ -42,4 +45,4 @@ const Login: FC<LoginPageProps> = ({}) => {
   );
 };
 
-export default Login;
+export default Register;
