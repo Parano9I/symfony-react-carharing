@@ -4,13 +4,14 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import Home from './routes/home';
+import Login from './routes/login';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <BrowserRouter>
-    <Home />
+    <Login />
   </BrowserRouter>
 );
 

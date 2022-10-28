@@ -6,7 +6,7 @@ interface HeaderProps {}
 
 const Header: FC<HeaderProps> = () => {
   return (
-    <div className="bg-slate-900 py-4 text-white">
+    <header className="bg-slate-900 py-4 text-white">
       <Container>
         <div className="flex justify-between items-center">
           <RouterLink
@@ -26,7 +26,7 @@ const Header: FC<HeaderProps> = () => {
           </div>
         </div>
       </Container>
-    </div>
+    </header>
   );
 };
 
