@@ -2,9 +2,8 @@ import { FC } from 'react';
 import Container from '../../components/container/container.component';
 import Header from '../../components/header/header.component';
 import Input from '../../components/ui/input/input.component';
-import { UserCreateRequestInterface } from '../../services/axios/user/interfaces';
-import { createUser } from '../../services/axios/user/api';
 import Form from '../../components/form/form.component';
+import { InputType } from '../../components/ui/input/types';
 
 interface RegisterPageProps {}
 
@@ -43,7 +42,7 @@ const Register: FC<RegisterPageProps> = ({}) => {
               />
               <Input name="email" title="Email" required={true} error="" />
               <Input
-                type="number"
+                type={InputType.Email}
                 name="phone"
                 title="Phone"
                 required={true}
@@ -51,7 +50,7 @@ const Register: FC<RegisterPageProps> = ({}) => {
               />
               <Input
                 name="password"
-                type="password"
+                type={InputType.Pass}
                 title="Password"
                 required={true}
                 error=""
@@ -59,7 +58,7 @@ const Register: FC<RegisterPageProps> = ({}) => {
               />
               <Input
                 name="confirm_password"
-                type="password"
+                type={InputType.Pass}
                 title="Confirm password"
                 required={true}
                 error=""

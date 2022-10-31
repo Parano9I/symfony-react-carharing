@@ -1,7 +1,8 @@
 import { FC, useState } from 'react';
+import { InputType } from './types';
 
 interface InputProps {
-  type?: 'password' | 'number';
+  type?: InputType;
   name: string;
   className?: string;
   required?: boolean;
@@ -10,7 +11,7 @@ interface InputProps {
 }
 
 const Input: FC<InputProps> = ({
-  type = 'text',
+  type = InputType.Text,
   name,
   required = false,
   title,
