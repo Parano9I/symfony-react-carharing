@@ -10,6 +10,7 @@ const Header: FC<HeaderProps> = () => {
   const user: UserInterface | undefined = useAppSelector(
     (state) => state.user.user
   );
+  console.log(user);
   return (
     <header className="bg-slate-900 py-4 text-white">
       <Container>
@@ -22,7 +23,7 @@ const Header: FC<HeaderProps> = () => {
           </RouterLink>
           <div className="flex items-center">
             {user ? (
-              <div>{user.first_name}</div>
+              <div>{`${user.last_name} ${user.first_name}`}</div>
             ) : (
               <>
                 <RouterLink

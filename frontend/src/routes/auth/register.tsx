@@ -8,6 +8,8 @@ import { createUser } from '../../services/axios/user/api';
 import { addTokens, addUser } from '../../store/slices/user';
 import { UserInterface, UserTokensInterface } from '../../interfaces/user';
 import { useAppDispatch } from '../../hooks/reduxHooks';
+import { AxiosError } from 'axios';
+import { ErrorDataInterface } from '../../services/axios/interfaces';
 
 interface RegisterPageProps {}
 
@@ -25,12 +27,20 @@ const Register: FC<RegisterPageProps> = ({}) => {
 
   const onSubmit = async (formFields: RegisterFormFields) => {
     if (formFields) {
-      const response = await createUser(formFields);
-      const user: UserInterface = response.user;
-      const tokens: UserTokensInterface = response.tokens;
+      try {
+        const response = await createUser(formFields);
+        const user: UserInterface = response.user;
+        const tokens: UserTokensInterface = response.tokens;
 
-      dispatch(addUser(user));
-      dispatch(addTokens(tokens));
+        dispatch(addUser(user));
+        dispatch(addTokens(tokens));
+      } catch (error) {
+        const err = error as AxiosError<any>;
+        const data: ErrorDataInterface = err.response?.data;
+        if (data) {
+          console.log(data.message);
+        }
+      }
     }
   };
 
