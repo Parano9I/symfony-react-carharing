@@ -1,6 +1,8 @@
 import {
   UserCreateFuncInterface,
   UserCreateRequestInterface,
+  UserLoginFuncInterface,
+  UserLoginRequestInterface,
   UserLoginResponseInterface
 } from './interfaces';
 import httpClient from '../index';
@@ -20,9 +22,15 @@ export const createUser: UserCreateFuncInterface = async (data) => {
   };
 };
 
-export const login = async (data: UserLoginResponseInterface) => {
-  let response: UserLoginResponseInterface;
-  response = await httpClient.post('/user/auth/login');
+export const login: UserLoginFuncInterface = async (data) => {
+  const response = await httpClient.post('/auth/login', data);
+  const result = response.data;
 
-  return response;
+  const user: UserInterface = result.user;
+  const tokens: UserTokensInterface = result.authorization;
+
+  return {
+    user,
+    tokens
+  };
 };

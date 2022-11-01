@@ -22,3 +22,7 @@ export interface UserLoginResponseInterface {
 export interface UserCreateFuncInterface {
   (data: UserCreateRequestInterface): Promise<UserLoginResponseInterface>;
 }
+
+export interface UserLoginFuncInterface {
+  (data: UserLoginRequestInterface): Promise<UserLoginResponseInterface>;
+}

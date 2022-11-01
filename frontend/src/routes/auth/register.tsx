@@ -12,6 +12,7 @@ import { AxiosError } from 'axios';
 import { ErrorDataInterface } from '../../services/axios/interfaces';
 import Notification from '../../components/notification/notification.component';
 import { NotificationStatus } from '../../components/notification/types';
+import { useNavigate } from 'react-router-dom';
 
 interface RegisterPageProps {}
 
@@ -26,6 +27,7 @@ interface RegisterFormFields {
 
 const Register: FC<RegisterPageProps> = ({}) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [notificationMessage, setNotificationMessage] = useState<{
     status: string;
     message: string;
@@ -43,6 +45,8 @@ const Register: FC<RegisterPageProps> = ({}) => {
 
         dispatch(addUser(user));
         dispatch(addTokens(tokens));
+
+        navigate('/');
       } catch (error) {
         const err = error as AxiosError<any>;
         const data: ErrorDataInterface = err.response?.data;
