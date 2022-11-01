@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import Container from '../../components/container/container.component';
 import Header from '../../components/header/header.component';
 import Input from '../../components/ui/input/input.component';
@@ -10,6 +10,8 @@ import { UserInterface, UserTokensInterface } from '../../interfaces/user';
 import { useAppDispatch } from '../../hooks/reduxHooks';
 import { AxiosError } from 'axios';
 import { ErrorDataInterface } from '../../services/axios/interfaces';
+import Notification from '../../components/notification/notification.component';
+import { NotificationStatus } from '../../components/notification/types';
 
 interface RegisterPageProps {}
 
@@ -24,6 +26,13 @@ interface RegisterFormFields {
 
 const Register: FC<RegisterPageProps> = ({}) => {
   const dispatch = useAppDispatch();
+  const [notificationMessage, setNotificationMessage] = useState<{
+    status: string;
+    message: string;
+  }>({
+    status: '',
+    message: ''
+  });
 
   const onSubmit = async (formFields: RegisterFormFields) => {
     if (formFields) {
@@ -38,7 +47,10 @@ const Register: FC<RegisterPageProps> = ({}) => {
         const err = error as AxiosError<any>;
         const data: ErrorDataInterface = err.response?.data;
         if (data) {
-          console.log(data.message);
+          setNotificationMessage({
+            status: 'Error',
+            message: data.message
+          });
         }
       }
     }
@@ -47,7 +59,7 @@ const Register: FC<RegisterPageProps> = ({}) => {
   return (
     <div className="h-screen bg-auth bg-contain bg-no-repeat">
       <Header />
-      <main className="">
+      <main className="relative">
         <Container className="flex grow shrink flex-col pt-10">
           <div className="w-2/5 self-end bg-white p-4 rounded-xl shadow-2xl">
             <Form className="grid grid-cols-2 gap-2" onSubmit={onSubmit}>
@@ -102,6 +114,22 @@ const Register: FC<RegisterPageProps> = ({}) => {
             </Form>
           </div>
         </Container>
+        {notificationMessage.message ? (
+          <Notification
+            handleCloseClick={() =>
+              setNotificationMessage({ status: '', message: '' })
+            }
+            status={
+              NotificationStatus[
+                notificationMessage.status as keyof typeof NotificationStatus
+              ]
+            }
+          >
+            {notificationMessage.message}
+          </Notification>
+        ) : (
+          ''
+        )}
       </main>
     </div>
   );
