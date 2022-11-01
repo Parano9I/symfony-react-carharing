@@ -3,6 +3,7 @@ import Container from '../container/container.component';
 import { Link as RouterLink } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/reduxHooks';
 import { UserInterface } from '../../interfaces/user';
+import DropDown from '../dropDown/dropDown.component';
 
 interface HeaderProps {}
 
@@ -23,9 +24,19 @@ const Header: FC<HeaderProps> = () => {
           </RouterLink>
           <div className="flex items-center">
             {user ? (
-              <div>{`${user.last_name} ${user.first_name}`}</div>
+              <h1>User</h1>
             ) : (
               <>
+                <DropDown className="w-56">
+                  <div className="">Anton Chernov</div>
+                  <RouterLink
+                    to="/auth/register"
+                    className="hover:text-orange-700"
+                  >
+                    Dashboard
+                  </RouterLink>
+                  <button className="hover:text-orange-700">Logout</button>
+                </DropDown>
                 <RouterLink
                   to="/auth/register"
                   className="hover:text-orange-700"
