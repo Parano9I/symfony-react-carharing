@@ -1,4 +1,4 @@
-import { UserInterface, UserTokenInterface } from '../../../interfaces/user';
+import { UserInterface, UserTokensInterface } from '../../../interfaces/user';
 
 export interface UserCreateRequestInterface {
   first_name: string;
@@ -16,5 +16,9 @@ export interface UserLoginRequestInterface {
 
 export interface UserLoginResponseInterface {
   user: UserInterface;
-  token: UserTokenInterface;
+  tokens: UserTokensInterface;
+}
+
+export interface UserCreateFuncInterface {
+  (data: UserCreateRequestInterface): Promise<UserLoginResponseInterface>;
 }

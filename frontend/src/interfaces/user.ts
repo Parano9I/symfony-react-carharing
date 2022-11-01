@@ -4,7 +4,7 @@ export interface UserInterface {
   last_name: string;
   email: string;
 }
-export interface UserTokenInterface {
+export interface UserTokensInterface {
   type: string;
   access_token: string;
   refresh_token: string;

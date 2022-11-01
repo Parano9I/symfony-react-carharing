@@ -4,6 +4,12 @@ import Header from '../../components/header/header.component';
 import Input from '../../components/ui/input/input.component';
 import Form from '../../components/form/form.component';
 import { InputType } from '../../components/ui/input/types';
+import { createUser } from '../../services/axios/user/api';
+import { addTokens, addUser } from '../../store/slices/user';
+import { UserInterface, UserTokensInterface } from '../../interfaces/user';
+import { useAppDispatch } from '../../hooks/reduxHooks';
+import { AxiosError } from 'axios';
+import { ErrorDataInterface } from '../../services/axios/interfaces';
 
 interface RegisterPageProps {}
 
@@ -17,8 +23,25 @@ interface RegisterFormFields {
 }
 
 const Register: FC<RegisterPageProps> = ({}) => {
-  const onSubmit = (formFields: RegisterFormFields) => {
-    console.log(formFields);
+  const dispatch = useAppDispatch();
+
+  const onSubmit = async (formFields: RegisterFormFields) => {
+    if (formFields) {
+      try {
+        const response = await createUser(formFields);
+        const user: UserInterface = response.user;
+        const tokens: UserTokensInterface = response.tokens;
+
+        dispatch(addUser(user));
+        dispatch(addTokens(tokens));
+      } catch (error) {
+        const err = error as AxiosError<any>;
+        const data: ErrorDataInterface = err.response?.data;
+        if (data) {
+          console.log(data.message);
+        }
+      }
+    }
   };
 
   return (
@@ -40,9 +63,15 @@ const Register: FC<RegisterPageProps> = ({}) => {
                 required={true}
                 error=""
               />
-              <Input name="email" title="Email" required={true} error="" />
               <Input
+                name="email"
                 type={InputType.Email}
+                title="Email"
+                required={true}
+                error=""
+              />
+              <Input
+                type={InputType.Number}
                 name="phone"
                 title="Phone"
                 required={true}

@@ -1,15 +1,23 @@
 import {
+  UserCreateFuncInterface,
   UserCreateRequestInterface,
   UserLoginResponseInterface
 } from './interfaces';
 import httpClient from '../index';
+import { UserInterface, UserTokensInterface } from '../../../interfaces/user';
+import { AxiosError } from 'axios';
 
-export const createUser = async (data: UserCreateRequestInterface) => {
+export const createUser: UserCreateFuncInterface = async (data) => {
   const response = await httpClient.post('/user', data);
+  const result = response.data;
 
-  let result: UserLoginResponseInterface = JSON.parse(response.data);
+  const user: UserInterface = result.user;
+  const tokens: UserTokensInterface = result.authorization;
 
-  return result;
+  return {
+    user,
+    tokens
+  };
 };
 
 export const login = async (data: UserLoginResponseInterface) => {
