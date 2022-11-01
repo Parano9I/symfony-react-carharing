@@ -1,29 +1,28 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { UserInterface, UserTokensInterface } from '../../../interfaces/user';
+import { UserStateInterface } from '../interfaces';
 
-interface stateInterface {
-  user: UserInterface | null;
-  tokens: UserTokensInterface | null;
-}
-
-const initialState: stateInterface = {
-  user: null,
-  tokens: null
+const initialState: UserStateInterface = {
+  user: undefined,
+  tokens: undefined
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    addUser(state, action) {},
+    addUser(state, action: PayloadAction<UserInterface>) {
+      state.user = action.payload;
+      console.log(state);
+    },
 
     removeUser(state) {},
 
-    addTokens(state, action) {},
+    addTokens(state, action: PayloadAction<UserTokensInterface>) {},
 
-    removeTokens(state, action) {},
+    removeTokens(state) {},
 
-    refreshTokens(state, action) {}
+    refreshTokens(state, action: PayloadAction<UserTokensInterface>) {}
   }
 });
 

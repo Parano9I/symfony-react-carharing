@@ -16,5 +16,9 @@ export interface UserLoginRequestInterface {
 
 export interface UserLoginResponseInterface {
   user: UserInterface;
-  token: UserTokensInterface;
+  tokens: UserTokensInterface;
+}
+
+export interface UserCreateFuncInterface {
+  (data: UserCreateRequestInterface): Promise<UserLoginResponseInterface>;
 }
