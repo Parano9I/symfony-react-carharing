@@ -1,9 +1,18 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import Container from '../../components/container/container.component';
 import Header from '../../components/header/header.component';
 import Input from '../../components/ui/input/input.component';
 import { InputType } from '../../components/ui/input/types';
 import Form from '../../components/form/form.component';
+import { createUser, login } from '../../services/axios/user/api';
+import { UserInterface, UserTokensInterface } from '../../interfaces/user';
+import { addTokens, addUser } from '../../store/slices/user';
+import { AxiosError } from 'axios';
+import { ErrorDataInterface } from '../../services/axios/interfaces';
+import { useAppDispatch } from '../../hooks/reduxHooks';
+import { useNavigate } from 'react-router-dom';
+import Notification from '../../components/notification/notification.component';
+import { NotificationStatus } from '../../components/notification/types';
 
 interface LoginPageProps {}
 
@@ -13,14 +22,42 @@ interface LoginFormFields {
 }
 
 const Login: FC<LoginPageProps> = ({}) => {
-  const onSubmit = (formFields: LoginFormFields) => {
-    console.log(formFields);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [notificationMessage, setNotificationMessage] = useState<{
+    status: string;
+    message: string;
+  }>({
+    status: '',
+    message: ''
+  });
+
+  const onSubmit = async (formFields: LoginFormFields) => {
+    try {
+      const response = await login(formFields);
+      const user: UserInterface = response.user;
+      const tokens: UserTokensInterface = response.tokens;
+
+      dispatch(addUser(user));
+      dispatch(addTokens(tokens));
+
+      navigate('/');
+    } catch (error) {
+      const err = error as AxiosError<any>;
+      const data: ErrorDataInterface = err.response?.data;
+      if (data) {
+        setNotificationMessage({
+          status: 'Error',
+          message: data.message
+        });
+      }
+    }
   };
 
   return (
     <div className="h-screen bg-auth bg-contain bg-no-repeat">
       <Header />
-      <main className="">
+      <main className="relative">
         <Container className="flex grow shrink flex-col pt-20">
           <div className="w-2/5 self-end bg-white p-4 rounded-xl shadow-2xl">
             <Form className="grid grid-cols-2 gap-2" onSubmit={onSubmit}>
@@ -49,6 +86,22 @@ const Login: FC<LoginPageProps> = ({}) => {
             </Form>
           </div>
         </Container>
+        {notificationMessage.message ? (
+          <Notification
+            handleCloseClick={() =>
+              setNotificationMessage({ status: '', message: '' })
+            }
+            status={
+              NotificationStatus[
+                notificationMessage.status as keyof typeof NotificationStatus
+              ]
+            }
+          >
+            {notificationMessage.message}
+          </Notification>
+        ) : (
+          ''
+        )}
       </main>
     </div>
   );
