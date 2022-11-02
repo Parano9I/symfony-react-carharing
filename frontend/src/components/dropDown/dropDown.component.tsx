@@ -6,7 +6,7 @@ interface DropDownProps {
 }
 
 const DropDown: FC<DropDownProps> = ({ children, className = '' }) => {
-  const [isDropped, setToggleDropped] = useState(true);
+  const [isDropped, setToggleDropped] = useState(false);
 
   const childrenArray = Children.toArray(children);
   const mainElement: ReactNode = childrenArray[0];
