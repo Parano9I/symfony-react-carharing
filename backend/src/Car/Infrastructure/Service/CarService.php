@@ -2,6 +2,7 @@
 
 namespace App\Car\Infrastructure\Service;
 
+use App\Car\Application\DTO\CarsGetAllQueryParamsDTO;
 use App\Entity\User;
 use App\Car\Application\DTO\CarDTO;
 use App\Car\Domain\Repository\CarRepositoryInterface;
@@ -34,11 +35,11 @@ class CarService implements CarServiceInterface
         return $car->getId();
     }
 
-    public function getAll(): array
+    public function getAll(CarsGetAllQueryParamsDTO $queryParamsDTO): array
     {
-        $cars = $this->carRepository->getAll();
+        $data = $this->carRepository->getAll($queryParamsDTO);
 
-        return $cars;
+        return $data;
     }
 
     public function getAllByUser(User $user): array

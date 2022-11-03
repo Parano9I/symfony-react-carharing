@@ -2,8 +2,10 @@
 
 namespace App\Car\Domain\Repository;
 
+use App\Car\Application\DTO\CarsGetAllQueryParamsDTO;
 use App\Entity\Car;
 use App\Entity\User;
+use Doctrine\ORM\Query;
 
 interface CarRepositoryInterface
 {
@@ -11,7 +13,7 @@ interface CarRepositoryInterface
 
     public function remove(Car $entity, bool $flush = false): void;
 
-    public function getAll(): array;
+    public function getAll(CarsGetAllQueryParamsDTO $queryParamsDTO): array;
 
     public function getAllByUser(User $user): array;
 

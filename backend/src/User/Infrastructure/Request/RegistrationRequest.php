@@ -2,7 +2,7 @@
 
 namespace App\User\Infrastructure\Request;
 
-use App\Shared\Domain\Request\AbstractBaseRequest;
+use App\Shared\Domain\AbstractBaseRequest;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class RegistrationRequest extends AbstractBaseRequest

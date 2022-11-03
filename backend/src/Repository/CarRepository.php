@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Car\Application\DTO\CarsGetAllQueryParamsDTO;
 use App\Car\Domain\Repository\CarRepositoryInterface;
 use App\Entity\Car;
 use App\Entity\User;
+use App\Shared\Domain\PaginationInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,9 +21,13 @@ use Doctrine\Persistence\ManagerRegistry;
 class CarRepository extends ServiceEntityRepository implements CarRepositoryInterface
 {
 
-    public function __construct(ManagerRegistry $registry)
+    private PaginationInterface $pagination;
+
+
+    public function __construct(ManagerRegistry $registry, PaginationInterface $pagination)
     {
         parent::__construct($registry, Car::class);
+        $this->pagination = $pagination;
     }
 
     public function save(Car $entity, bool $flush = false): void
@@ -42,9 +48,11 @@ class CarRepository extends ServiceEntityRepository implements CarRepositoryInte
         }
     }
 
-    public function getAll(): array
+    public function getAll(CarsGetAllQueryParamsDTO $queryParamsDTO): array
     {
-        $result = $this->createQueryBuilder('c')
+        $numberPage = $queryParamsDTO->page;
+
+        $query = $this->createQueryBuilder('c')
             ->select('c')
             ->innerJoin(
                 'c.user',
@@ -52,9 +60,9 @@ class CarRepository extends ServiceEntityRepository implements CarRepositoryInte
                 \Doctrine\ORM\Query\Expr\Join::WITH,
                 'c.user=u.id'
             )
-            ->getQuery()->getResult();
+            ->getQuery();
 
-        return $result;
+        return $this->pagination->paginate($query, $numberPage, 1);
     }
 
     public function getAllByUser(User $user): array
