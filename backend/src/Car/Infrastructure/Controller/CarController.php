@@ -25,6 +25,7 @@ class CarController extends AbstractController
     {
         $queryParamsDTO = new CarsGetAllQueryParamsDTO;
         $queryParamsDTO->page = $request->query->getInt('page');
+        $queryParamsDTO->manufacturer = (string)$request->query->get('manufacturer');
 
         $data = $this->carService->getAll($queryParamsDTO);
         $cars = $data['data'];

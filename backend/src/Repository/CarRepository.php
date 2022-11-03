@@ -60,9 +60,11 @@ class CarRepository extends ServiceEntityRepository implements CarRepositoryInte
                 \Doctrine\ORM\Query\Expr\Join::WITH,
                 'c.user=u.id'
             )
+            ->where('c.manufacturer =:manufacturer')
+            ->setParameters(['manufacturer' => $queryParamsDTO->manufacturer])
             ->getQuery();
 
-        return $this->pagination->paginate($query, $numberPage, 1);
+        return $this->pagination->paginate($query, $numberPage, 6);
     }
 
     public function getAllByUser(User $user): array
