@@ -18,6 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CarRepository extends ServiceEntityRepository implements CarRepositoryInterface
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Car::class);
@@ -43,7 +44,17 @@ class CarRepository extends ServiceEntityRepository implements CarRepositoryInte
 
     public function getAll(): array
     {
-        return $this->findAll();
+        $result = $this->createQueryBuilder('c')
+            ->select('c')
+            ->innerJoin(
+                'c.user',
+                'u',
+                \Doctrine\ORM\Query\Expr\Join::WITH,
+                'c.user=u.id'
+            )
+            ->getQuery()->getResult();
+
+        return $result;
     }
 
     public function getAllByUser(User $user): array

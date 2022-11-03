@@ -38,7 +38,7 @@ class CarService implements CarServiceInterface
     {
         $cars = $this->carRepository->getAll();
 
-        return [];
+        return $cars;
     }
 
     public function getAllByUser(User $user): array
