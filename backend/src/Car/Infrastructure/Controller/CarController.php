@@ -2,22 +2,36 @@
 
 namespace App\Car\Infrastructure\Controller;
 
+use App\Car\Application\DTO\CarsGetAllQueryParamsDTO;
 use App\Car\Domain\Service\CarServiceInterface;
-use App\Car\Infrastructure\Request\CreateRequest;
+use App\Car\Infrastructure\Resource\CarResource;
+use App\User\Infrastructure\Resource\UserResource;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CarController extends AbstractController
 {
 
     public function __construct(
-        private CarServiceInterface $carService
+        private CarServiceInterface $carService,
+        private CarResource $carResource,
+        private UserResource $userResource
     ) {
     }
 
     #[Route('/api/cars/', methods: ['GET'])]
-    public function all()
+    public function all(Request $request)
     {
-        $cars = $this->carService->getAll();
+        $queryParamsDTO = new CarsGetAllQueryParamsDTO(
+            $request->query->getInt('page'),
+            $request->query->get('manufacturer'),
+            $request->query->get('fuel'),
+        );
+
+        $data = $this->carService->getAll($queryParamsDTO);
+
+
+        return $this->json(['data' => $data]);
     }
 }

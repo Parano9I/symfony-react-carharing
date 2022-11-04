@@ -2,9 +2,14 @@
 
 namespace App\Repository;
 
+use App\Car\Application\DTO\CarsGetAllQueryParamsDTO;
 use App\Car\Domain\Repository\CarRepositoryInterface;
+use App\Car\Infrastructure\Filters\FuelFilter;
+use App\Car\Infrastructure\Filters\ManufacturerFilter;
 use App\Entity\Car;
 use App\Entity\User;
+use App\Shared\Domain\PaginationInterface;
+use App\Shared\Infrastructure\Pipeline;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -18,9 +23,14 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CarRepository extends ServiceEntityRepository implements CarRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
+
+    private PaginationInterface $pagination;
+
+
+    public function __construct(ManagerRegistry $registry, PaginationInterface $pagination)
     {
         parent::__construct($registry, Car::class);
+        $this->pagination = $pagination;
     }
 
     public function save(Car $entity, bool $flush = false): void
@@ -41,9 +51,29 @@ class CarRepository extends ServiceEntityRepository implements CarRepositoryInte
         }
     }
 
-    public function getAll(): array
+    public function getAll(CarsGetAllQueryParamsDTO $queryParamsDTO): array
     {
-        return $this->findAll();
+        $numberPage = $queryParamsDTO->page;
+
+        $query = $this->createQueryBuilder('c')
+            ->select('c')
+            ->innerJoin(
+                'c.user',
+                'u',
+                \Doctrine\ORM\Query\Expr\Join::WITH,
+                'c.user=u.id'
+            );
+
+            $query = (new Pipeline())->send($query)
+                ->setParams($queryParamsDTO)
+                ->through([
+                    ManufacturerFilter::class,
+                    FuelFilter::class
+                ])
+                ->thenReturn()
+                ->getQuery();
+
+        return $this->pagination->paginate($query, $numberPage, 6);
     }
 
     public function getAllByUser(User $user): array

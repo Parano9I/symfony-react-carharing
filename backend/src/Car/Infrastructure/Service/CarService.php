@@ -2,11 +2,14 @@
 
 namespace App\Car\Infrastructure\Service;
 
+use App\Car\Application\DTO\CarsGetAllQueryParamsDTO;
+use App\Car\Infrastructure\Resource\CarResource;
 use App\Entity\User;
 use App\Car\Application\DTO\CarDTO;
 use App\Car\Domain\Repository\CarRepositoryInterface;
 use App\Car\Domain\Service\CarServiceInterface;
 use App\Entity\Car;
+use App\User\Infrastructure\Resource\UserResource;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CarService implements CarServiceInterface
@@ -34,11 +37,23 @@ class CarService implements CarServiceInterface
         return $car->getId();
     }
 
-    public function getAll(): array
+    public function getAll(CarsGetAllQueryParamsDTO $queryParamsDTO): array
     {
-        $cars = $this->carRepository->getAll();
+        $data = $this->carRepository->getAll($queryParamsDTO);
 
-        return [];
+        $cars = $data['data'];
+        $pagination = $data['pagination'];
+
+        $carResource = new CarResource();
+        $userResource = new UserResource();
+
+        return [
+            'cars' => array_map(fn($car) => [
+                'car' => $carResource($car),
+                'lessor' => $userResource($car->getUser())
+            ], $cars),
+            'pagination' => $pagination,
+        ];
     }
 
     public function getAllByUser(User $user): array

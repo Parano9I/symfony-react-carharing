@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CarRepository;
 use Doctrine\ORM\Mapping as ORM;
 use http\Exception\InvalidArgumentException;
+use App\Entity\User;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: CarRepository::class)]
@@ -29,9 +30,9 @@ class Car
     #[ORM\Column(type: 'string', length: 200, nullable: true)]
     private ?string $image = null;
 
-    #[ORM\JoinColumn(nullable: false)]
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'cars')]
-    private UserInterface $user;
+    #[ORM\JoinColumn(nullable: true)]
+    private ?UserInterface $user = null;
 
     #[ORM\Column(type: 'string', length: 100)]
     private string $fuelType;

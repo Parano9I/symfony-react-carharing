@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shared\Domain\Resource;
+namespace App\Shared\Domain;
 
 abstract class AbstractResource
 {

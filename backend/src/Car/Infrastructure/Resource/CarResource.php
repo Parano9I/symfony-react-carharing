@@ -2,7 +2,7 @@
 
 namespace App\Car\Infrastructure\Resource;
 
-use App\Shared\Domain\Resource\AbstractResource;
+use App\Shared\Domain\AbstractResource;
 
 class CarResource extends AbstractResource
 {

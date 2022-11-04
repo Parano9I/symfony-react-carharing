@@ -2,8 +2,7 @@
 
 namespace App\User\Infrastructure\Resource;
 
-use App\Entity\User;
-use App\Shared\Domain\Resource\AbstractResource;
+use App\Shared\Domain\AbstractResource;
 
 class UserResource extends AbstractResource
 {
