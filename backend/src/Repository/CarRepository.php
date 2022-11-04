@@ -73,7 +73,7 @@ class CarRepository extends ServiceEntityRepository implements CarRepositoryInte
                 ->thenReturn()
                 ->getQuery();
 
-        return $this->pagination->paginate($query, $numberPage, 6);
+        return $this->pagination->paginate($query, $numberPage, 2);
     }
 
     public function getAllByUser(User $user): array

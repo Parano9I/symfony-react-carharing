@@ -3,7 +3,6 @@
 namespace App\User\Domain\Service;
 
 use App\Entity\User;
-use App\User\Infrastructure\Resource\UserResource;
 use Symfony\Component\PasswordHasher\Exception\InvalidPasswordException;
 
 interface UserServiceInterface
@@ -15,4 +14,6 @@ interface UserServiceInterface
     public function verifyCredentialPassword(User $user, string $plainPassword): ?InvalidPasswordException;
 
     public function getAll(): array;
+
+    public function changeRole(User $user, string $role): ?User;
 }
