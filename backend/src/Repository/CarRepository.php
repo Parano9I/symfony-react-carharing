@@ -86,6 +86,16 @@ class CarRepository extends ServiceEntityRepository implements CarRepositoryInte
         return $this->findOneBy(['id' => $id]);
     }
 
+    public function getDistinctValueByField(string $fieldName): array
+    {
+        $query = $this->createQueryBuilder('c')
+            ->select('c.' . $fieldName)
+            ->distinct()
+            ->getQuery();
+
+        return $query->getSingleColumnResult();
+    }
+
 
 
     //    /**

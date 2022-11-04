@@ -17,4 +17,6 @@ interface CarServiceInterface
     public function getAllByUser(User $user): array;
 
     public function getByIdAndByUserId(User $user, int $id): ?Car;
+
+    public function getAllFilters(): array;
 }
