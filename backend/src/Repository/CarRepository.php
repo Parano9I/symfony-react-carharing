@@ -73,7 +73,7 @@ class CarRepository extends ServiceEntityRepository implements CarRepositoryInte
                 ->thenReturn()
                 ->getQuery();
 
-        return $this->pagination->paginate($query, $numberPage, 6);
+        return $this->pagination->paginate($query, $numberPage, 2);
     }
 
     public function getAllByUser(User $user): array
@@ -84,6 +84,16 @@ class CarRepository extends ServiceEntityRepository implements CarRepositoryInte
     public function getById(int $id): ?Car
     {
         return $this->findOneBy(['id' => $id]);
+    }
+
+    public function getDistinctValueByField(string $fieldName): array
+    {
+        $query = $this->createQueryBuilder('c')
+            ->select('c.' . $fieldName)
+            ->distinct()
+            ->getQuery();
+
+        return $query->getSingleColumnResult();
     }
 
 

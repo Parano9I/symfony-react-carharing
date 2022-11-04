@@ -18,4 +18,6 @@ interface CarRepositoryInterface
     public function getAllByUser(User $user): array;
 
     public function getById(int $id): ?Car;
+
+    public function getDistinctValueByField(string $fieldName):array;
 }

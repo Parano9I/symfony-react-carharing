@@ -71,4 +71,12 @@ class UserService implements UserServiceInterface
 
         return array_map(fn($user) => $resource($user), $users);
     }
+
+    public function changeRole(User $user, string $role): ?User
+    {
+        $user->setRoles(['ROLE_LESSOR']);
+        $this->userRepository->save($user, true);
+
+        return $user;
+    }
 }

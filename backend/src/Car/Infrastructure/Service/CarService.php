@@ -22,6 +22,7 @@ class CarService implements CarServiceInterface
 
     public function create(CarDTO $dto, User $user): int
     {
+
         $car = new Car();
 
         $car->setModel($dto->model);
@@ -74,5 +75,20 @@ class CarService implements CarServiceInterface
         }
 
         return $car;
+    }
+
+    public function getAllFilters(): array
+    {
+        $filtersFiled = ['manufacturer', 'fuelType', 'transmissionType', 'passengersNumber'];
+        $result = [];
+
+
+        foreach ($filtersFiled as $filterField){
+            $filterValues = $this->carRepository->getDistinctValueByField($filterField);
+
+            $result[$filterField] = $filterValues;
+        }
+
+        return $result;
     }
 }

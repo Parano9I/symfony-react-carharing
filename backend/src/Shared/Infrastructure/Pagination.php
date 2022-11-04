@@ -36,7 +36,9 @@ final class Pagination implements PaginationInterface
     {
         $prevNumberPage = $numberPage - 1;
 
-        if($prevNumberPage <= 0) return null;
+        if ($prevNumberPage <= 0) {
+            return null;
+        }
 
         return $prevNumberPage;
     }
