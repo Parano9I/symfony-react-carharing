@@ -21,22 +21,17 @@ class CarController extends AbstractController
     }
 
     #[Route('/api/cars/', methods: ['GET'])]
-    public function all(Request $request, CarResource $carResource, UserResource $userResource)
+    public function all(Request $request)
     {
-        $queryParamsDTO = new CarsGetAllQueryParamsDTO;
-        $queryParamsDTO->page = $request->query->getInt('page');
-        $queryParamsDTO->manufacturer = (string)$request->query->get('manufacturer');
+        $queryParamsDTO = new CarsGetAllQueryParamsDTO(
+            $request->query->getInt('page'),
+            $request->query->get('manufacturer'),
+            $request->query->get('fuel'),
+        );
 
         $data = $this->carService->getAll($queryParamsDTO);
-        $cars = $data['data'];
-        $pagination = $data['pagination'];
 
-        return $this->json([
-            'cars' => array_map(fn($car) => [
-                'car' => $carResource($car),
-                'lessor' => $userResource($car->getUser())
-            ], $cars),
-            'pagination' => $pagination,
-        ]);
+
+        return $this->json(['data' => $data]);
     }
 }

@@ -4,9 +4,12 @@ namespace App\Repository;
 
 use App\Car\Application\DTO\CarsGetAllQueryParamsDTO;
 use App\Car\Domain\Repository\CarRepositoryInterface;
+use App\Car\Infrastructure\Filters\FuelFilter;
+use App\Car\Infrastructure\Filters\ManufacturerFilter;
 use App\Entity\Car;
 use App\Entity\User;
 use App\Shared\Domain\PaginationInterface;
+use App\Shared\Infrastructure\Pipeline;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -59,10 +62,16 @@ class CarRepository extends ServiceEntityRepository implements CarRepositoryInte
                 'u',
                 \Doctrine\ORM\Query\Expr\Join::WITH,
                 'c.user=u.id'
-            )
-            ->where('c.manufacturer =:manufacturer')
-            ->setParameters(['manufacturer' => $queryParamsDTO->manufacturer])
-            ->getQuery();
+            );
+
+            $query = (new Pipeline())->send($query)
+                ->setParams($queryParamsDTO)
+                ->through([
+                    ManufacturerFilter::class,
+                    FuelFilter::class
+                ])
+                ->thenReturn()
+                ->getQuery();
 
         return $this->pagination->paginate($query, $numberPage, 6);
     }
