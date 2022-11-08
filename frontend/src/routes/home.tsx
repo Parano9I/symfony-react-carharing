@@ -1,13 +1,11 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import Header from '../components/header/header.component';
 import Container from '../components/container/container.component';
-import CarCard from '../components/carCardComponent/carCard.component';
-import { CarInterface } from '../interfaces/car';
 import FilterItem from '../components/filter/filterItem.component';
 import Checkbox from '../components/ui/checkbox/checkbox.component';
 import Filter from '../components/filter/filter.component';
-import { FilterInterface } from '../components/filter/types';
 import { useSearchParams } from 'react-router-dom';
+import Pagination from '../components/pagination/pagination.component';
 
 interface HomePageProps {}
 
@@ -50,6 +48,7 @@ const Home: FC<HomePageProps> = () => {
           {/*{carsData.map((carData: CarInterface, id) => (*/}
           {/*  <CarCard key={id} carData={carData} />*/}
           {/*))}*/}
+          <Pagination count={12} />
         </div>
       </Container>
     </div>
