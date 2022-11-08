@@ -3,35 +3,33 @@ import { Children, FC, ReactNode, useState } from 'react';
 interface DropDownProps {
   children: ReactNode;
   className?: string;
+  label: string;
 }
 
-const DropDown: FC<DropDownProps> = ({ children, className = '' }) => {
+const DropDown: FC<DropDownProps> = ({ children, className = '', label }) => {
   const [isDropped, setToggleDropped] = useState(false);
-
-  const childrenArray = Children.toArray(children);
-  const mainElement: ReactNode = childrenArray[0];
-  const fallingElements: ReactNode[] = childrenArray.slice(1);
-
   const handleToggleDropped = () => setToggleDropped(!isDropped);
 
+  const childrenArray = Children.toArray(children);
+
   return (
-    <div className={`${className} relative`}>
+    <div className={`${className}`}>
       <button
         className="flex justify-between border-slate-800 p-2 border-b-2 w-full"
         onClick={handleToggleDropped}
       >
-        {mainElement}
+        {label}
         <span className="pl-1">{isDropped ? '▼' : '▲'}</span>
       </button>
-      {isDropped ? (
-        <div className="absolute z-10 w-full">
-          {fallingElements.map((element) => {
-            return <div className="bg-slate-900 p-2">{element}</div>;
-          })}
-        </div>
-      ) : (
-        <> </>
-      )}
+      <div
+        className={`w-full ${
+          isDropped ? 'h-full' : 'h-0 hidden'
+        } transition-height duration-100`}
+      >
+        {childrenArray.map((element) => {
+          return <div className="">{element}</div>;
+        })}
+      </div>
     </div>
   );
 };

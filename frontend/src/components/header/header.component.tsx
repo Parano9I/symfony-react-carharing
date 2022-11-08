@@ -24,8 +24,7 @@ const Header: FC<HeaderProps> = () => {
           </RouterLink>
           <div className="flex items-center">
             {user ? (
-              <DropDown className="w-56">
-                <div className="">Anton Chernov</div>
+              <DropDown className="w-56" label="Anton Chernov">
                 <RouterLink
                   to="/auth/register"
                   className="hover:text-orange-700"
