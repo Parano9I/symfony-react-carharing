@@ -16,6 +16,10 @@ module.exports = {
       },
       backgroundSize: {
         1: '1rem'
+      },
+      transitionProperty: {
+        height: 'height',
+        spacing: 'margin, padding'
       }
     }
   },
