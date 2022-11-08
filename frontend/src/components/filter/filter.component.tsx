@@ -45,7 +45,7 @@ const Filter: FC<FilterProps> = ({ className, children }) => {
         {children}
       </FilterContext.Provider>
       <button
-        className="bg-orange-700 rounded-xl p-2 text-white hover:bg-orange-800"
+        className="mt-2 bg-orange-700 rounded-xl p-2 text-white hover:bg-orange-800"
         onClick={handleApplyFilters}
       >
         Apply filters
