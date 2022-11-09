@@ -1,23 +1,25 @@
 import { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import fillPaginationArray from './fillPaginationArray';
+import {
+  useMySearchParams,
+  SearchParamsType
+} from '../../hooks/mySearchParamsHook';
 
 interface PaginationProps {
   count: number;
 }
 
 const Pagination: FC<PaginationProps> = ({ count }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useMySearchParams();
   const siblingCount = 3;
-  const currentPageNumber = parseInt(searchParams.get('page') ?? '1');
+  const currentPageNumber = parseInt(searchParams['page'] ?? '1');
 
   const isActive = (numberPage: number) => {
     return numberPage === currentPageNumber;
   };
 
   const range = fillPaginationArray(count, currentPageNumber, siblingCount);
-
-  console.log([...searchParams.entries(), []]);
 
   const moveNext = () => {
     const nextNumber = currentPageNumber + 1;
