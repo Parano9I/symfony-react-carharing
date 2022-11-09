@@ -1,8 +1,7 @@
 import { FC, ReactElement, useState } from 'react';
 import { FilterContext } from './context';
 import { FilterInterface } from './types';
-import GeneratorSearchParams from '../../helpers/GeneratorSearchParams';
-import { useSearchParams } from 'react-router-dom';
+import { useMySearchParams } from '../../hooks/mySearchParamsHook';
 
 interface FilterProps {
   className: string;
@@ -10,7 +9,7 @@ interface FilterProps {
 }
 
 const Filter: FC<FilterProps> = ({ className, children }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useMySearchParams();
   const [filters, setFilters] = useState<FilterInterface[]>([]);
 
   const addFilter = (newFilterState: FilterInterface): void => {
@@ -27,16 +26,13 @@ const Filter: FC<FilterProps> = ({ className, children }) => {
   };
 
   const handleApplyFilters = () => {
-    const generatorParams = new GeneratorSearchParams();
+    const params = filters.reduce((acc, curr) => {
+      if (curr.values.length) {
+        return { ...acc, [curr.name]: curr.values.join(',') };
+      } else return acc;
+    }, {});
 
-    filters.forEach((filter) => {
-      if (filter.values.length) {
-        generatorParams.set(filter.name, filter.values);
-      }
-    });
-
-    const paramsStr = generatorParams.getStringSearchParams();
-    setSearchParams(paramsStr);
+    setSearchParams({ ...searchParams, ...params });
   };
 
   return (
