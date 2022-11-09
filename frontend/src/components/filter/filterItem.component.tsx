@@ -48,8 +48,11 @@ const FilterItem: FC<FilterItemProps> = ({
   return (
     <DropDown className="" label={label}>
       <div>
-        {Children.map(children, (item) => {
-          return cloneElement(item, { onChange: handleChange });
+        {Children.map(children, (item, index) => {
+          return cloneElement(item, {
+            onChange: handleChange,
+            key: new Date().toDateString()
+          });
         })}
       </div>
     </DropDown>

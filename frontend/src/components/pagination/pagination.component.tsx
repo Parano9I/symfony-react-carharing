@@ -59,9 +59,9 @@ const Pagination: FC<PaginationProps> = ({ count }) => {
           Prev
         </button>
       </li>
-      {range.map((number) => {
+      {range.map((number, index) => {
         return (
-          <li className="flex-1">
+          <li key={index} className="flex-1">
             <button
               className={`${isActive(number) ? 'text-amber-700' : ''} 
               text-center w-full cursor-pointer p-1 border-r border-amber-700 hover:text-amber-700`}

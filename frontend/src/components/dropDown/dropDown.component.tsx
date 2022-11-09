@@ -26,8 +26,12 @@ const DropDown: FC<DropDownProps> = ({ children, className = '', label }) => {
           isDropped ? 'h-full' : 'h-0 hidden'
         } transition-height duration-100`}
       >
-        {childrenArray.map((element) => {
-          return <div className="">{element}</div>;
+        {childrenArray.map((element, index) => {
+          return (
+            <div key={index} className="">
+              {element}
+            </div>
+          );
         })}
       </div>
     </div>
