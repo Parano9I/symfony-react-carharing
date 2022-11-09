@@ -1,13 +1,6 @@
-import {
-  UserCreateFuncInterface,
-  UserCreateRequestInterface,
-  UserLoginFuncInterface,
-  UserLoginRequestInterface,
-  UserLoginResponseInterface
-} from './interfaces';
+import { UserCreateFuncInterface, UserLoginFuncInterface } from './interfaces';
 import httpClient from '../index';
 import { UserInterface, UserTokensInterface } from '../../../interfaces/user';
-import { AxiosError } from 'axios';
 
 export const createUser: UserCreateFuncInterface = async (data) => {
   const response = await httpClient.post('/user', data);

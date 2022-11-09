@@ -9,10 +9,13 @@ const CarCard: FC<CarCardProps> = ({ carData }) => {
   const transformCamelCaseToHyphenCase = (string: string): string =>
     string.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
 
+  const getFullPathToImage = () =>
+    'https://ukr-prokat.com/wp-content/uploads/' + carData.image;
+
   return (
     <div className="rounded-xl border-slate-600 border p-2">
       <div className="flex border-b border-slate-600">
-        <img src={carData.image} alt="" className="w-3/5" />
+        <img src={getFullPathToImage()} alt="" className="w-3/5" />
         <div className="flex flex-col w-2/5">
           <h2 className="font-bold md:text-lg">{`${carData.manufacturer} ${carData.model}`}</h2>
           <ul className="text-sm">

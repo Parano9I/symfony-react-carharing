@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Header from '../components/header/header.component';
 import Container from '../components/container/container.component';
 import FilterItem from '../components/filter/filterItem.component';
@@ -6,11 +6,22 @@ import Checkbox from '../components/ui/checkbox/checkbox.component';
 import Filter from '../components/filter/filter.component';
 import { useSearchParams } from 'react-router-dom';
 import Pagination from '../components/pagination/pagination.component';
+import { getAllCars } from '../services/axios/car/api';
+import { CarInterface, CarWithLessorInterface } from '../interfaces/car';
+import CarCard from '../components/carCardComponent/carCard.component';
 
 interface HomePageProps {}
 
 const Home: FC<HomePageProps> = () => {
-  const [searchParams, _] = useSearchParams();
+  const [carsState, setCars] = useState<CarWithLessorInterface[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const { cars, pagination } = await getAllCars({});
+
+      setCars([...carsState, ...cars]);
+    })();
+  }, []);
 
   return (
     <div className="">
@@ -45,9 +56,9 @@ const Home: FC<HomePageProps> = () => {
           </FilterItem>
         </Filter>
         <div className="grid grid-cols-1 lg:grid-cols-2 auto-rows-min gap-2 w-3/4 p-2">
-          {/*{carsData.map((carData: CarInterface, id) => (*/}
-          {/*  <CarCard key={id} carData={carData} />*/}
-          {/*))}*/}
+          {carsState.map(({ car, lessor }, id) => {
+            return <CarCard key={id} carData={car} />;
+          })}
           <Pagination count={12} />
         </div>
       </Container>
