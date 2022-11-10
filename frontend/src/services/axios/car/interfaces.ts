@@ -14,3 +14,10 @@ export interface GetAllCarsParamsInterface {
   passengersNumber?: number[];
   page?: number;
 }
+
+export interface CarsFiltersInterface {
+  manufacturer: string[];
+  fuelType: string[];
+  transmissionType: string[];
+  passengersNumber: number[];
+}

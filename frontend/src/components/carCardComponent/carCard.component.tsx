@@ -1,11 +1,13 @@
 import { FC } from 'react';
 import { CarInterface } from '../../interfaces/car';
+import { UserInterface } from '../../interfaces/user';
 
 interface CarCardProps {
   carData: CarInterface;
+  lessorData: UserInterface;
 }
 
-const CarCard: FC<CarCardProps> = ({ carData }) => {
+const CarCard: FC<CarCardProps> = ({ carData, lessorData }) => {
   const transformCamelCaseToHyphenCase = (string: string): string =>
     string.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
 
@@ -32,7 +34,11 @@ const CarCard: FC<CarCardProps> = ({ carData }) => {
           </ul>
         </div>
       </div>
-      <div className="flex justify-end pt-2">
+      <div className="flex justify-between pt-2">
+        <div className="flex items-center">
+          <span className="mr-2">{`${lessorData.last_name} ${lessorData.first_name}`}</span>
+          <a href={`tell:${lessorData.phone}`}>{lessorData.phone}</a>
+        </div>
         <button className="bg-orange-700 rounded-xl p-2 text-white hover:bg-orange-800">
           Arrange a lease
         </button>

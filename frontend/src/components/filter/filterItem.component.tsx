@@ -10,6 +10,7 @@ import {
 import DropDown from '../dropDown/dropDown.component';
 import { FilterInterface } from './types';
 import { FilterContext } from './context';
+import Checkbox from '../ui/checkbox/checkbox.component';
 
 interface FilterItemProps {
   label: string;

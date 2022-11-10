@@ -12,7 +12,7 @@ class ManufacturerFilter implements FilterInterface
     public function handle(QueryBuilder $query, array|object $params): void
     {
         if(!is_null($params->manufacturer)){
-           $query = $query->andWhere('c.manufacturer =:manufacturer')
+           $query = $query->andWhere('c.manufacturer IN(:manufacturer)')
                ->setParameter('manufacturer', $params->manufacturer);
         }
     }

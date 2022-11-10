@@ -2,6 +2,9 @@ import { FC, ReactElement, useState } from 'react';
 import { FilterContext } from './context';
 import { FilterInterface } from './types';
 import { useMySearchParams } from '../../hooks/mySearchParamsHook';
+import Checkbox from '../ui/checkbox/checkbox.component';
+import FilterItem from './filterItem.component';
+import { it } from 'node:test';
 
 interface FilterProps {
   className: string;
@@ -33,6 +36,10 @@ const Filter: FC<FilterProps> = ({ className, children }) => {
     }, {});
 
     setSearchParams({ ...searchParams, ...params });
+  };
+
+  const handleClearFilters = () => {
+    setSearchParams({});
   };
 
   return (

@@ -1,4 +1,5 @@
 import {
+  CarsFiltersInterface,
   GetAllCarsParamsInterface,
   GetAllCarsResponseInterface
 } from './interfaces';
@@ -15,6 +16,13 @@ export const getAllCars = async (
   });
 
   const data: GetAllCarsResponseInterface = response.data.data;
+
+  return data;
+};
+
+export const getAllCarsFilters = async (): Promise<CarsFiltersInterface> => {
+  const response = await httpClient.get(baseUrl + '/filters');
+  const data: CarsFiltersInterface = response.data.data;
 
   return data;
 };

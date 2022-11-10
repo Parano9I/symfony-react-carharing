@@ -26,8 +26,10 @@ class CarController extends AbstractController
     {
         $queryParamsDTO = new CarsGetAllQueryParamsDTO(
             $request->query->getInt('page'),
-            $request->query->get('manufacturer'),
-            $request->query->get('fuel'),
+            $request->query->get('manufacturerType'),
+            $request->query->get('fuelType'),
+            $request->query->get('transmissionType'),
+            $request->query->get('passengersNumber'),
         );
 
         $data = $this->carService->getAll($queryParamsDTO);
