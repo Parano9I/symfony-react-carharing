@@ -1,4 +1,4 @@
-import { FC, ReactElement } from 'react';
+import { FC, memo, ReactElement } from 'react';
 import { useMySearchParams } from '../../hooks/mySearchParamsHook';
 
 interface FilterProps {
@@ -26,4 +26,4 @@ const Filter: FC<FilterProps> = ({ className, children }) => {
   );
 };
 
-export default Filter;
+export default memo(Filter);

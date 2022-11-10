@@ -10,7 +10,7 @@ import CarCard from '../components/carCardComponent/carCard.component';
 import { useMySearchParams } from '../hooks/mySearchParamsHook';
 import { getAllCars, getAllCarsFilters } from '../services/axios/car/api';
 import { CarsFiltersInterface } from '../services/axios/car/interfaces';
-import { useLocation } from 'react-router-dom';
+import useCheckedChangeSearchParams from '../hooks/checkedChangeSearchParamsHook';
 
 interface HomePageProps {}
 
@@ -23,12 +23,9 @@ const Home: FC<HomePageProps> = () => {
     passengersNumber: []
   });
   const [paginationPageCount, setPaginationPageCount] = useState(1);
+  const [forceRenderFilterKey, setForceRenderFilterKey] = useState(0);
   const [searchParams] = useMySearchParams();
-
-  const { search } = useLocation();
-  const params = useMemo(() => {
-    return new URLSearchParams(search);
-  }, [search]);
+  const params = useCheckedChangeSearchParams();
 
   useEffect(() => {
     (async () => {
@@ -38,6 +35,8 @@ const Home: FC<HomePageProps> = () => {
       setCars([...cars]);
       setPaginationPageCount(pagination.pageCount);
       setFilters({ ...filtersState, ...filtersData });
+
+      setForceRenderFilterKey(Math.random());
     })();
   }, [params]);
 
@@ -49,7 +48,7 @@ const Home: FC<HomePageProps> = () => {
     <div className="">
       <Header />
       <Container className="flex h-full">
-        <Filter className="flex flex-col w-1/4 p-2">
+        <Filter key={forceRenderFilterKey} className="flex flex-col w-1/4 p-2">
           {Object.entries(filtersState).map(([key, values], index) => {
             const label: string = capitalizeFirstLetter(key).replace(
               /([a-z])([A-Z])/g,

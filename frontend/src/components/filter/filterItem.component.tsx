@@ -15,17 +15,25 @@ const FilterItem: FC<FilterItemProps> = ({
 }) => {
   const [searchParams, setSearchParams] = useMySearchParams();
 
+  const getSearchParams = (): string[] => {
+    const params = searchParams[queryParamName];
+
+    return params ? params.split(',') : [];
+  };
+
+  const hasValueFromParams = (
+    searchParams: string[],
+    value: string
+  ): boolean => {
+    return searchParams.includes(value);
+  };
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const element = event.target;
     const value = element.value;
-    const queryParams = searchParams[queryParamName];
-    let tempGroupParams: string[];
+    let tempGroupParams = getSearchParams();
 
-    if (queryParams) {
-      tempGroupParams = queryParams.split(',');
-    } else tempGroupParams = [];
-
-    if (tempGroupParams.includes(value)) {
+    if (hasValueFromParams(tempGroupParams, value)) {
       tempGroupParams = tempGroupParams.filter((item) => item !== value);
     } else {
       tempGroupParams = [...tempGroupParams, value];
@@ -44,13 +52,19 @@ const FilterItem: FC<FilterItemProps> = ({
     }
   };
 
+  const isChecked = (value: string): boolean => {
+    const queryParams = getSearchParams();
+    return hasValueFromParams(queryParams, value);
+  };
+
   return (
     <DropDown className="" label={label}>
       <div>
         {Children.map(children, (item, index) => {
           return cloneElement(item, {
             onChange: handleChange,
-            key: queryParamName + index
+            key: queryParamName + index,
+            checked: isChecked(item.props.name)
           });
         })}
       </div>
