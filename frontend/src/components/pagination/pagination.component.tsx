@@ -12,7 +12,6 @@ interface PaginationProps {
 
 const Pagination: FC<PaginationProps> = ({ count }) => {
   const [searchParams, setSearchParams] = useMySearchParams();
-  console.log(searchParams);
   const siblingCount = 3;
   const currentPageNumber = parseInt(searchParams['page'] ?? '1');
 

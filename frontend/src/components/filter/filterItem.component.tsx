@@ -1,50 +1,48 @@
-import {
-  ChangeEvent,
-  Children,
-  cloneElement,
-  FC,
-  ReactElement,
-  useContext,
-  useState
-} from 'react';
+import { ChangeEvent, Children, cloneElement, FC, ReactElement } from 'react';
 import DropDown from '../dropDown/dropDown.component';
-import { FilterInterface } from './types';
-import { FilterContext } from './context';
-import Checkbox from '../ui/checkbox/checkbox.component';
+import { useMySearchParams } from '../../hooks/mySearchParamsHook';
 
 interface FilterItemProps {
   label: string;
   children: ReactElement | ReactElement[];
   queryParamName: string;
-  onFiltering?: (data: FilterInterface) => void;
 }
 
 const FilterItem: FC<FilterItemProps> = ({
   label,
   children,
-  queryParamName,
-  onFiltering
+  queryParamName
 }) => {
-  const [queryGroupParams, setQueryGroupParams] = useState<string[]>([]);
-  const { filters, addFilter } = useContext(FilterContext);
+  const [searchParams, setSearchParams] = useMySearchParams();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const element = event.target;
     const value = element.value;
+    const queryParams = searchParams[queryParamName];
+    let tempGroupParams: string[];
 
-    if (queryGroupParams.includes(value)) {
-      setQueryGroupParams(queryGroupParams.filter((param) => param !== value));
+    if (queryParams) {
+      tempGroupParams = queryParams.split(',');
+    } else tempGroupParams = [];
+
+    if (tempGroupParams.includes(value)) {
+      tempGroupParams = tempGroupParams.filter((item) => item !== value);
     } else {
-      setQueryGroupParams([...queryGroupParams, value]);
+      tempGroupParams = [...tempGroupParams, value];
+    }
+
+    if (tempGroupParams.length) {
+      setSearchParams({
+        ...searchParams,
+        [queryParamName]: tempGroupParams.join(',')
+      });
+    } else {
+      const tempSearchParams = { ...searchParams };
+      delete tempSearchParams[queryParamName];
+
+      setSearchParams(tempSearchParams);
     }
   };
-
-  const filterState: FilterInterface = {
-    name: queryParamName,
-    values: queryGroupParams
-  };
-
-  if (addFilter) addFilter(filterState);
 
   return (
     <DropDown className="" label={label}>
@@ -52,7 +50,7 @@ const FilterItem: FC<FilterItemProps> = ({
         {Children.map(children, (item, index) => {
           return cloneElement(item, {
             onChange: handleChange,
-            key: new Date().toDateString()
+            key: queryParamName + index
           });
         })}
       </div>
