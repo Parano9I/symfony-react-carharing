@@ -10,7 +10,7 @@ class FuelFilter implements FilterInterface
     public function handle(QueryBuilder $query, object|array $params): void
     {
         if (!is_null($params->fuelType)) {
-            $query = $query->andWhere('c.fuelType =:fuel')
+            $query = $query->andWhere('c.fuelType IN(:fuel)')
                 ->setParameter('fuel', $params->fuelType);
         }
     }
