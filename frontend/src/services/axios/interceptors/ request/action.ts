@@ -1,8 +1,7 @@
-import localStorageService from '../../../localStorageService';
 import { AxiosHeaders, AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 
 export const getAccessToken = (): string => {
-  const token = localStorageService.getToken('accessToken');
+  const token = null;
 
   if (token) {
     return 'Bearer ' + token;

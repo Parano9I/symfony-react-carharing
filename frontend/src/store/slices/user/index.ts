@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { UserInterface, UserTokensInterface } from '../../../interfaces/user';
 import { UserStateInterface } from '../interfaces';
-import localStorageService from '../../../services/localStorageService';
 
 const initialState: UserStateInterface = {
   user: null,
@@ -13,20 +12,20 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     addUser(state, action: PayloadAction<UserInterface>) {
-      const user = action.payload;
-
-      state.user = user;
-      localStorageService.setUser(user);
+      state.user = action.payload;
     },
 
     removeUser(state) {
       state.user = null;
-      localStorageService.removeUser();
     },
 
-    addTokens(state, action: PayloadAction<UserTokensInterface>) {},
+    addTokens(state, action: PayloadAction<UserTokensInterface>) {
+      state.tokens = action.payload;
+    },
 
-    removeTokens(state) {},
+    removeTokens(state) {
+      state.tokens = null;
+    },
 
     refreshTokens(state, action: PayloadAction<UserTokensInterface>) {}
   }

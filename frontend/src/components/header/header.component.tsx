@@ -1,16 +1,19 @@
 import { FC } from 'react';
 import Container from '../container/container.component';
 import { Link as RouterLink } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/reduxHooks';
+import { removeTokens, removeUser } from '../../store/slices/user';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { UserInterface } from '../../interfaces/user';
-import DropDown from '../dropDown/dropDown.component';
 
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = () => {
+  const dispatch = useAppDispatch();
   const user: UserInterface | null = useAppSelector((state) => state.user.user);
-
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    dispatch(removeUser());
+    dispatch(removeTokens());
+  };
 
   return (
     <header className="bg-slate-900 py-4 text-white">
@@ -26,7 +29,7 @@ const Header: FC<HeaderProps> = () => {
             {user ? (
               <div className="">
                 <RouterLink
-                  to="/auth/register"
+                  to="/dashboard"
                   className="hover:text-orange-700 mr-2"
                 >
                   Dashboard
