@@ -4,15 +4,15 @@ import Header from '../../components/header/header.component';
 import Input from '../../components/ui/input/input.component';
 import { InputType } from '../../components/ui/input/types';
 import Form from '../../components/form/form.component';
-import { createUser, login } from '../../services/axios/user/api';
+import { login } from '../../services/axios/user/api';
 import { UserInterface, UserTokensInterface } from '../../interfaces/user';
-import { addTokens, addUser } from '../../store/slices/user';
 import { AxiosError } from 'axios';
 import { ErrorDataInterface } from '../../services/axios/interfaces';
-import { useAppDispatch } from '../../hooks/reduxHooks';
 import { useNavigate } from 'react-router-dom';
 import Notification from '../../components/notification/notification.component';
 import { NotificationStatus } from '../../components/notification/types';
+import { addTokens, addUser } from '../../store/slices/user';
+import { useAppDispatch } from '../../hooks/reduxHooks';
 
 interface LoginPageProps {}
 
