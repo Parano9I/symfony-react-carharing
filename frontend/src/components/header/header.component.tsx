@@ -8,10 +8,10 @@ import DropDown from '../dropDown/dropDown.component';
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = () => {
-  const user: UserInterface | undefined = useAppSelector(
-    (state) => state.user.user
-  );
-  console.log(user);
+  const user: UserInterface | null = useAppSelector((state) => state.user.user);
+
+  const handleLogout = () => {};
+
   return (
     <header className="bg-slate-900 py-4 text-white">
       <Container>
@@ -24,15 +24,20 @@ const Header: FC<HeaderProps> = () => {
           </RouterLink>
           <div className="flex items-center">
             {user ? (
-              <DropDown className="w-56" label="Anton Chernov">
+              <div className="">
                 <RouterLink
                   to="/auth/register"
-                  className="hover:text-orange-700"
+                  className="hover:text-orange-700 mr-2"
                 >
                   Dashboard
                 </RouterLink>
-                <button className="hover:text-orange-700">Logout</button>
-              </DropDown>
+                <button
+                  onClick={handleLogout}
+                  className="hover:text-orange-700"
+                >
+                  Logout
+                </button>
+              </div>
             ) : (
               <>
                 <RouterLink
