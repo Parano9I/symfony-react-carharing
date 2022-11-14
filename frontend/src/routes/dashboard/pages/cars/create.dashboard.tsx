@@ -5,13 +5,24 @@ import { FC } from 'react';
 import Select from '../../../../components/ui/select/select.component';
 import Button from '../../../../components/ui/button/button.component';
 
-const CarCreateDashboard: FC = () => {
+interface CarCreateDashboardProps {}
+
+interface CreateCarFormFields {
+  manufacturer: string;
+  model: string;
+  fuelType: string;
+  transmissionType: string;
+  engineCapacity: number;
+  passengersNumber: number;
+}
+
+const CarCreateDashboard: FC<CarCreateDashboardProps> = ({}) => {
+  const onSubmit = async (formFields: CreateCarFormFields) => {
+    console.log(formFields);
+  };
   return (
     <Dashboard>
-      <Form
-        onSubmit={() => console.log('sdsd')}
-        className="flex flex-col h-full"
-      >
+      <Form onSubmit={onSubmit} className="flex flex-col h-full">
         <div className="grid grid-cols-2">
           <div className="p-2">
             <h2 className="text-xl mb-2">Main</h2>
@@ -67,7 +78,7 @@ const CarCreateDashboard: FC = () => {
           </div>
           <div className="p-2"></div>
         </div>
-        <Button className="self-end justify-self-end mr-4">Create a car</Button>
+        <Button className="self-end mr-4">Create a car</Button>
       </Form>
     </Dashboard>
   );
