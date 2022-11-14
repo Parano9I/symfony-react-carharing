@@ -5,9 +5,11 @@ import { removeTokens, removeUser } from '../../store/slices/user';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { UserInterface } from '../../interfaces/user';
 
-interface HeaderProps {}
+interface HeaderProps {
+  className?: string;
+}
 
-const Header: FC<HeaderProps> = () => {
+const Header: FC<HeaderProps> = ({ className }) => {
   const dispatch = useAppDispatch();
   const user: UserInterface | null = useAppSelector((state) => state.user.user);
   const handleLogout = () => {
@@ -16,7 +18,7 @@ const Header: FC<HeaderProps> = () => {
   };
 
   return (
-    <header className="bg-slate-900 py-4 text-white">
+    <header className={`${className} bg-slate-900 py-2 text-white`}>
       <Container>
         <div className="flex justify-between items-center">
           <RouterLink

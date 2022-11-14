@@ -2,7 +2,6 @@ import { FC, useState } from 'react';
 import Container from '../../components/container/container.component';
 import Header from '../../components/header/header.component';
 import Input from '../../components/ui/input/input.component';
-import { InputType } from '../../components/ui/input/types';
 import Form from '../../components/form/form.component';
 import { login } from '../../services/axios/user/api';
 import { UserInterface, UserTokensInterface } from '../../interfaces/user';
@@ -63,18 +62,16 @@ const Login: FC<LoginPageProps> = ({}) => {
             <Form className="grid grid-cols-2 gap-2" onSubmit={onSubmit}>
               <Input
                 name="email"
-                type={InputType.Email}
+                type="email"
                 title="Email"
                 required={true}
-                error=""
                 className="col-span-2"
               />
               <Input
                 name="password"
-                type={InputType.Pass}
+                type="password"
                 title="Password"
                 required={true}
-                error=""
                 className="col-span-2"
               />
               <button

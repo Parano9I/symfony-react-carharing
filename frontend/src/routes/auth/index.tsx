@@ -1,8 +1,4 @@
-import {
-  BrowserRouterProps,
-  createBrowserRouter,
-  RouteObject
-} from 'react-router-dom';
+import { RouteObject } from 'react-router-dom';
 import Register from './register';
 import Login from './login';
 

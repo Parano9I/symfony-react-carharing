@@ -3,7 +3,6 @@ import Container from '../../components/container/container.component';
 import Header from '../../components/header/header.component';
 import Input from '../../components/ui/input/input.component';
 import Form from '../../components/form/form.component';
-import { InputType } from '../../components/ui/input/types';
 import { createUser } from '../../services/axios/user/api';
 import { addTokens, addUser } from '../../store/slices/user';
 import { UserInterface, UserTokensInterface } from '../../interfaces/user';
@@ -67,46 +66,22 @@ const Register: FC<RegisterPageProps> = ({}) => {
         <Container className="flex grow shrink flex-col pt-10">
           <div className="w-2/5 self-end bg-white p-4 rounded-xl shadow-2xl">
             <Form className="grid grid-cols-2 gap-2" onSubmit={onSubmit}>
-              <Input
-                name="first_name"
-                title="First name"
-                required={true}
-                error=""
-              />
-              <Input
-                name="last_name"
-                title="Last name"
-                required={true}
-                error=""
-              />
-              <Input
-                name="email"
-                type={InputType.Email}
-                title="Email"
-                required={true}
-                error=""
-              />
-              <Input
-                type={InputType.Number}
-                name="phone"
-                title="Phone"
-                required={true}
-                error=""
-              />
+              <Input name="first_name" title="First name" required={true} />
+              <Input name="last_name" title="Last name" required={true} />
+              <Input name="email" type="email" title="Email" required={true} />
+              <Input type="number" name="phone" title="Phone" required={true} />
               <Input
                 name="password"
-                type={InputType.Pass}
+                type="password"
                 title="Password"
                 required={true}
-                error=""
                 className="col-span-2"
               />
               <Input
                 name="confirm_password"
-                type={InputType.Pass}
+                type="password"
                 title="Confirm password"
                 required={true}
-                error=""
                 className="col-span-2"
               />
               <button
