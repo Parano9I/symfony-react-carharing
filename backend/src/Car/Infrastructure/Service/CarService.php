@@ -22,7 +22,6 @@ class CarService implements CarServiceInterface
 
     public function create(CarDTO $dto, User $user): int
     {
-
         $car = new Car();
 
         $car->setModel($dto->model);
@@ -34,6 +33,13 @@ class CarService implements CarServiceInterface
         $car->setUser($user);
 
         $this->carRepository->save($car, true);
+
+        $userRoles = $user->getRoles();
+        $lessorRole = 'ROLE_LESSOR';
+
+        if(!in_array($lessorRole, $userRoles)){
+            $user->setRoles([$lessorRole]);
+        }
 
         return $car->getId();
     }
