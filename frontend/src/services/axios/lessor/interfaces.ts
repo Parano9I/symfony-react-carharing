@@ -5,3 +5,7 @@ export interface GetCarsResponseInterface {
   cars: CarInterface[];
   pagination: PaginationInterface;
 }
+
+export interface CreateCarResponseInterface {
+  status: string;
+}

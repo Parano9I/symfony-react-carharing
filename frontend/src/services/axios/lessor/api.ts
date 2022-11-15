@@ -1,6 +1,9 @@
 import { CarInterface } from '../../../interfaces/car';
 import httpClient from '../index';
-import { GetCarsResponseInterface } from './interfaces';
+import {
+  CreateCarResponseInterface,
+  GetCarsResponseInterface
+} from './interfaces';
 
 const getCars = async (): Promise<GetCarsResponseInterface> => {
   const response = await httpClient.get('/lessor/cars');
@@ -9,10 +12,13 @@ const getCars = async (): Promise<GetCarsResponseInterface> => {
   return result;
 };
 
-const createCar = (car: CarInterface) => {
-  const response = httpClient.post('/lessor/cars/', { ...car });
+const createCar = async (
+  car: CarInterface
+): Promise<CreateCarResponseInterface> => {
+  const response = await httpClient.post('/lessor/cars/', { ...car });
+  const result: CreateCarResponseInterface = response.data.data;
 
-  console.log(response);
+  return result;
 };
 
 const lessorApi = {

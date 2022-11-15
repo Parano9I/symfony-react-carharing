@@ -9,9 +9,9 @@ import { AxiosError } from 'axios';
 import { ErrorDataInterface } from '../../services/axios/interfaces';
 import { useNavigate } from 'react-router-dom';
 import Notification from '../../components/notification/notification.component';
-import { NotificationStatus } from '../../components/notification/types';
 import { addTokens, addUser } from '../../store/slices/user';
 import { useAppDispatch } from '../../hooks/reduxHooks';
+import { NotificationInterface } from '../../components/notification/NotificationInterface';
 
 interface LoginPageProps {}
 
@@ -23,13 +23,8 @@ interface LoginFormFields {
 const Login: FC<LoginPageProps> = ({}) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [notificationMessage, setNotificationMessage] = useState<{
-    status: string;
-    message: string;
-  }>({
-    status: '',
-    message: ''
-  });
+  const [notificationMessage, setNotificationMessage] =
+    useState<NotificationInterface | null>(null);
 
   const onSubmit = async (formFields: LoginFormFields) => {
     try {
@@ -46,7 +41,7 @@ const Login: FC<LoginPageProps> = ({}) => {
       const data: ErrorDataInterface = err.response?.data;
       if (data) {
         setNotificationMessage({
-          status: 'Error',
+          status: 'error',
           message: data.message
         });
       }
@@ -83,16 +78,10 @@ const Login: FC<LoginPageProps> = ({}) => {
             </Form>
           </div>
         </Container>
-        {notificationMessage.message ? (
+        {notificationMessage ? (
           <Notification
-            handleCloseClick={() =>
-              setNotificationMessage({ status: '', message: '' })
-            }
-            status={
-              NotificationStatus[
-                notificationMessage.status as keyof typeof NotificationStatus
-              ]
-            }
+            handleCloseClick={() => setNotificationMessage(null)}
+            status={notificationMessage.status}
           >
             {notificationMessage.message}
           </Notification>

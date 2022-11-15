@@ -10,9 +10,9 @@ import { useAppDispatch } from '../../hooks/reduxHooks';
 import { AxiosError } from 'axios';
 import { ErrorDataInterface } from '../../services/axios/interfaces';
 import Notification from '../../components/notification/notification.component';
-import { NotificationStatus } from '../../components/notification/types';
 import { useNavigate } from 'react-router-dom';
 import Checkbox from '../../components/ui/checkbox/checkbox.component';
+import { NotificationInterface } from '../../components/notification/NotificationInterface';
 
 interface RegisterPageProps {}
 
@@ -28,13 +28,8 @@ interface RegisterFormFields {
 const Register: FC<RegisterPageProps> = ({}) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [notificationMessage, setNotificationMessage] = useState<{
-    status: string;
-    message: string;
-  }>({
-    status: '',
-    message: ''
-  });
+  const [notificationMessage, setNotificationMessage] =
+    useState<NotificationInterface | null>(null);
 
   const onSubmit = async (formFields: RegisterFormFields) => {
     if (formFields) {
@@ -52,7 +47,7 @@ const Register: FC<RegisterPageProps> = ({}) => {
         const data: ErrorDataInterface = err.response?.data;
         if (data) {
           setNotificationMessage({
-            status: 'Error',
+            status: 'error',
             message: data.message
           });
         }
@@ -102,16 +97,10 @@ const Register: FC<RegisterPageProps> = ({}) => {
             </Form>
           </div>
         </Container>
-        {notificationMessage.message ? (
+        {notificationMessage ? (
           <Notification
-            handleCloseClick={() =>
-              setNotificationMessage({ status: '', message: '' })
-            }
-            status={
-              NotificationStatus[
-                notificationMessage.status as keyof typeof NotificationStatus
-              ]
-            }
+            handleCloseClick={() => setNotificationMessage(null)}
+            status={notificationMessage.status}
           >
             {notificationMessage.message}
           </Notification>
