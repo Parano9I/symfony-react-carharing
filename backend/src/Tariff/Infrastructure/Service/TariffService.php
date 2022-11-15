@@ -19,7 +19,14 @@ class TariffService implements TariffServiceInterface
 
     public function create(CreateTariffDTO $dto): int
     {
-        return 0;
+        $tariffEntity  = new Tariff();
+
+        $tariffEntity->setName($dto->name);
+        $tariffEntity->setPrice($dto->price);
+
+        $this->tariffRepository->save($tariffEntity, true);
+
+        return $tariffEntity->getId();
     }
 
     public function getAll(): array

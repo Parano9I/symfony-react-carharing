@@ -4,7 +4,7 @@ namespace App\Tariff\Application\DTO;
 
 class CreateTariffDTO
 {
-    public string $name = '';
+    public string $name;
 
-    public float $price = 0.00;
+    public float $price;
 }

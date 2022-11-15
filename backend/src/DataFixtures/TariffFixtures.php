@@ -3,11 +3,19 @@
 namespace App\DataFixtures;
 
 use App\Entity\Tariff;
+use App\Tariff\Application\DTO\CreateTariffDTO;
+use App\Tariff\Domain\Service\TariffServiceInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
 class TariffFixtures extends Fixture
 {
+
+    public function __construct(
+        private TariffServiceInterface $tariffService
+    )
+    {
+    }
 
     private $tariffs = [
         [
@@ -22,14 +30,14 @@ class TariffFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
+
         foreach ($this->tariffs as $tariff){
-            $tariffEntity = new Tariff();
+            $tariffDto = new CreateTariffDTO();
 
-            $tariffEntity->setName($tariff['name']);
-            $tariffEntity->setPrice($tariff['price']);
+            $tariffDto->name = $tariff['name'];
+            $tariffDto->price = $tariff['price'];
 
-            $manager->persist($tariffEntity);
-            $manager->flush();
+            $this->tariffService->create($tariffDto);
         }
     }
 }
