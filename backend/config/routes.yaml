@@ -20,3 +20,7 @@ car_controller:
 lessor_car_controller:
   resource: App\Car\Infrastructure\Controller\LessorCarController
   type: annotation
+
+tariff_controller:
+  resource: App\Tariff\Infrastructure\Controller\TariffController
+  type: annotation
