@@ -22,7 +22,6 @@ class CarService implements CarServiceInterface
 
     public function create(CarDTO $dto, User $user): int
     {
-
         $car = new Car();
 
         $car->setModel($dto->model);

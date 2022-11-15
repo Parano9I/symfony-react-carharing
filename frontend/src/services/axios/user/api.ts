@@ -27,3 +27,7 @@ export const login: UserLoginFuncInterface = async (data) => {
     tokens
   };
 };
+
+export const logout = async () => {
+  const response = await httpClient.get('/auth/logout');
+};

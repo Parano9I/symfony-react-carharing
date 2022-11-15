@@ -38,6 +38,10 @@ class UserService implements UserServiceInterface
         $user->setRoles($user->getRoles());
         $user->setPassword($this->hashedPassword($data['password'], $user));
 
+        if($data['isLessor']){
+            $user->setRoles(['ROLE_LESSOR']);
+        }
+
         $this->userRepository->save($user, true);
 
         return $user;

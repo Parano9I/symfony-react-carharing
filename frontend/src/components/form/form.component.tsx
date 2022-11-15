@@ -1,6 +1,7 @@
 import {
   Children,
   FC,
+  FormEvent,
   FormEventHandler,
   isValidElement,
   ReactNode
@@ -13,22 +14,26 @@ interface FormProps {
 }
 
 const Form: FC<FormProps> = ({ children, className = '', onSubmit }) => {
-  const formFieldsName = Children?.map(children, (child) => {
-    if (isValidElement(child)) {
-      if (child.type !== 'button') {
-        const name: string = child.props.name;
-        return name;
+  const handleSubmit: FormEventHandler = (
+    event: FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+    const form: HTMLFormElement = event.currentTarget;
+    let formFields: { [key: string]: string } = {};
+
+    for (let i = 0; i < form.length; i++) {
+      const field = form[i];
+
+      if (
+        field instanceof HTMLInputElement ||
+        field instanceof HTMLSelectElement
+      ) {
+        const fieldName = field.name;
+        const fieldValue = field.value;
+
+        formFields[fieldName] = fieldValue;
       }
     }
-  });
-
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-
-    const formFields = formFieldsName?.reduce((acc: any, name: string) => {
-      return { ...acc, [name]: form[name].value };
-    }, {});
 
     onSubmit(formFields);
   };

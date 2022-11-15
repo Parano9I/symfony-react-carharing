@@ -2,7 +2,6 @@ import { FC, useState } from 'react';
 import Container from '../../components/container/container.component';
 import Header from '../../components/header/header.component';
 import Input from '../../components/ui/input/input.component';
-import { InputType } from '../../components/ui/input/types';
 import Form from '../../components/form/form.component';
 import { login } from '../../services/axios/user/api';
 import { UserInterface, UserTokensInterface } from '../../interfaces/user';
@@ -10,9 +9,9 @@ import { AxiosError } from 'axios';
 import { ErrorDataInterface } from '../../services/axios/interfaces';
 import { useNavigate } from 'react-router-dom';
 import Notification from '../../components/notification/notification.component';
-import { NotificationStatus } from '../../components/notification/types';
 import { addTokens, addUser } from '../../store/slices/user';
 import { useAppDispatch } from '../../hooks/reduxHooks';
+import { NotificationInterface } from '../../components/notification/NotificationInterface';
 
 interface LoginPageProps {}
 
@@ -24,13 +23,8 @@ interface LoginFormFields {
 const Login: FC<LoginPageProps> = ({}) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [notificationMessage, setNotificationMessage] = useState<{
-    status: string;
-    message: string;
-  }>({
-    status: '',
-    message: ''
-  });
+  const [notificationMessage, setNotificationMessage] =
+    useState<NotificationInterface | null>(null);
 
   const onSubmit = async (formFields: LoginFormFields) => {
     try {
@@ -47,7 +41,7 @@ const Login: FC<LoginPageProps> = ({}) => {
       const data: ErrorDataInterface = err.response?.data;
       if (data) {
         setNotificationMessage({
-          status: 'Error',
+          status: 'error',
           message: data.message
         });
       }
@@ -63,18 +57,16 @@ const Login: FC<LoginPageProps> = ({}) => {
             <Form className="grid grid-cols-2 gap-2" onSubmit={onSubmit}>
               <Input
                 name="email"
-                type={InputType.Email}
+                type="email"
                 title="Email"
                 required={true}
-                error=""
                 className="col-span-2"
               />
               <Input
                 name="password"
-                type={InputType.Pass}
+                type="password"
                 title="Password"
                 required={true}
-                error=""
                 className="col-span-2"
               />
               <button
@@ -86,16 +78,10 @@ const Login: FC<LoginPageProps> = ({}) => {
             </Form>
           </div>
         </Container>
-        {notificationMessage.message ? (
+        {notificationMessage ? (
           <Notification
-            handleCloseClick={() =>
-              setNotificationMessage({ status: '', message: '' })
-            }
-            status={
-              NotificationStatus[
-                notificationMessage.status as keyof typeof NotificationStatus
-              ]
-            }
+            handleCloseClick={() => setNotificationMessage(null)}
+            status={notificationMessage.status}
           >
             {notificationMessage.message}
           </Notification>

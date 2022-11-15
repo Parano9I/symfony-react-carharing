@@ -1,27 +1,24 @@
 import { FC, useState } from 'react';
-import { InputType } from './types';
 
 interface InputProps {
-  type?: InputType;
+  type?: 'email' | 'password' | 'number';
   name: string;
   className?: string;
   required?: boolean;
   title: string;
-  error?: string;
 }
 
 const Input: FC<InputProps> = ({
-  type = InputType.Text,
+  type = 'text',
   name,
   required = false,
   title,
-  error = '',
   className = ''
 }) => {
   const [value, setValue] = useState('');
 
   return (
-    <label className={`flex flex-col pb-8 ${className}`}>
+    <label className={`flex flex-col ${className}`}>
       <span>
         {title}
         {required ? <span className="text-red-800">*</span> : ''}
@@ -34,7 +31,6 @@ const Input: FC<InputProps> = ({
         onChange={(e) => setValue(e.target.value)}
         required={required}
       />
-      <span className="text-red-800">{error}</span>
     </label>
   );
 };

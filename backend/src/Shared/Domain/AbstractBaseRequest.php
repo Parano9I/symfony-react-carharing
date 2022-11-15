@@ -29,7 +29,7 @@ abstract class AbstractBaseRequest
                 $ctx->{$propertyName} = $value;
             }
         }
-        
+
         return $ctx;
     }
 
@@ -47,7 +47,7 @@ abstract class AbstractBaseRequest
     {
         $errors = $this->validator->validate($this);
         $messages = ['message' => 'validation_failed', 'errors' => []];
-    
+
         foreach ($errors as $error) {
             $messages['errors'][] = [
                 'property' => $error->getPropertyPath(),
@@ -62,8 +62,8 @@ abstract class AbstractBaseRequest
 
             exit();
         }
-        
-        if(!is_null($dto)){
+
+        if (!is_null($dto)) {
             return $this->createProperty($dto, $this->getRequest()->toArray());
         }
 

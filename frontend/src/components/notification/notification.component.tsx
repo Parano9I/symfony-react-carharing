@@ -1,8 +1,7 @@
 import { FC, useState } from 'react';
-import { NotificationStatus } from './types';
 
 interface NotificationProps {
-  status: NotificationStatus;
+  status: 'error' | 'success' | 'warning';
   children: string;
   handleCloseClick: () => void;
 }

@@ -20,12 +20,16 @@ class LessorCarController extends AbstractController
     }
 
     #[Route('/api/lessor/cars/', methods: ['POST'])]
-    public function store(CreateRequest $request)
+    public function store(CreateRequest $request):JsonResponse
     {
         $carDTO = $request->validate(new CarDTO());
         $user = $this->getUser();
 
         $carId = $this->carService->create($carDTO, $user);
+
+        return $this->json(['data' => [
+            'status' => 'success'
+        ]]);
     }
 
     #[Route('/api/lessor/cars/', methods: ['GET'])]
