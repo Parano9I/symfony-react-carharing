@@ -24,7 +24,6 @@ class Tariff
     private ?string $price = null;
 
     #[ORM\OneToMany(targetEntity: Car::class, mappedBy: 'tariff')]
-    #[ORM\Column(type: 'bigint')]
     private Collection $cars;
 
     public function __construct()
