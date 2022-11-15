@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Tariff;
+use App\Tariff\Domain\Repository\TariffRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Tariff[]    findAll()
  * @method Tariff[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TariffRepository extends ServiceEntityRepository
+class TariffRepository extends ServiceEntityRepository implements TariffRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -39,6 +40,16 @@ class TariffRepository extends ServiceEntityRepository
         }
     }
 
+    public function getAll(): array
+    {
+        $tariffs = $this->createQueryBuilder('t')
+            ->select('t')
+            ->getQuery()
+            ->getArrayResult();
+
+        return $tariffs;
+    }
+
 //    /**
 //     * @return Tariff[] Returns an array of Tariff objects
 //     */
@@ -52,8 +63,8 @@ class TariffRepository extends ServiceEntityRepository
 //            ->getQuery()
 //            ->getResult()
 //        ;
-//    }
 
+//    }
 //    public function findOneBySomeField($value): ?Tariff
 //    {
 //        return $this->createQueryBuilder('t')
