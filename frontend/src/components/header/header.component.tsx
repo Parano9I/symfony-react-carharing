@@ -5,6 +5,7 @@ import { removeTokens, removeUser } from '../../store/slices/user';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { UserInterface } from '../../interfaces/user';
 import { logout } from '../../services/axios/user/api';
+import { store } from '../../store';
 
 interface HeaderProps {
   className?: string;
