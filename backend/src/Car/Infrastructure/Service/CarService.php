@@ -34,13 +34,6 @@ class CarService implements CarServiceInterface
 
         $this->carRepository->save($car, true);
 
-        $userRoles = $user->getRoles();
-        $lessorRole = 'ROLE_LESSOR';
-
-        if(!in_array($lessorRole, $userRoles)){
-            $user->setRoles([$lessorRole]);
-        }
-
         return $car->getId();
     }
 

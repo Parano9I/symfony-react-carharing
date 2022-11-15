@@ -4,6 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { removeTokens, removeUser } from '../../store/slices/user';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { UserInterface } from '../../interfaces/user';
+import { logout } from '../../services/axios/user/api';
 
 interface HeaderProps {
   className?: string;
@@ -12,7 +13,8 @@ interface HeaderProps {
 const Header: FC<HeaderProps> = ({ className }) => {
   const dispatch = useAppDispatch();
   const user: UserInterface | null = useAppSelector((state) => state.user.user);
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await logout();
     dispatch(removeUser());
     dispatch(removeTokens());
   };

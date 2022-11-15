@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class Car
 {
 
-    private array $fuelTypes = ['gasoline', 'gas', 'electric'];
+    private array $fuelTypes = ['gasoline', 'diesel', 'electric'];
     private array $transmissionTypes = ['automatic', 'manual'];
 
     #[ORM\Id]

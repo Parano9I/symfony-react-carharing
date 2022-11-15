@@ -9,8 +9,15 @@ const getCars = async (): Promise<GetCarsResponseInterface> => {
   return result;
 };
 
+const createCar = (car: CarInterface) => {
+  const response = httpClient.post('/lessor/cars/', { ...car });
+
+  console.log(response);
+};
+
 const lessorApi = {
-  getCars
+  getCars,
+  createCar
 };
 
 export default lessorApi;

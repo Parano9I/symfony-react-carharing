@@ -21,7 +21,7 @@ class CreateRequest extends AbstractBaseRequest
 
     #[
         Assert\NotBlank,
-        Assert\Choice(['gasoline', 'gas', 'electric'])
+        Assert\Choice(['gasoline', 'diesel', 'electric'])
     ]
     protected $fuelType;
 

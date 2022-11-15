@@ -12,6 +12,7 @@ import { ErrorDataInterface } from '../../services/axios/interfaces';
 import Notification from '../../components/notification/notification.component';
 import { NotificationStatus } from '../../components/notification/types';
 import { useNavigate } from 'react-router-dom';
+import Checkbox from '../../components/ui/checkbox/checkbox.component';
 
 interface RegisterPageProps {}
 
@@ -84,6 +85,14 @@ const Register: FC<RegisterPageProps> = ({}) => {
                 required={true}
                 className="col-span-2"
               />
+              <div className="col-span-2">
+                <Checkbox
+                  name="isLessor"
+                  value="true"
+                  label="I want to rent cars"
+                />
+              </div>
+
               <button
                 type="submit"
                 className="bg-orange-700 rounded-sm py-2 text-white hover:bg-orange-800"

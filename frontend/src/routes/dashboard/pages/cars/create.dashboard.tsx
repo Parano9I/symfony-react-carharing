@@ -4,21 +4,14 @@ import Input from '../../../../components/ui/input/input.component';
 import { FC } from 'react';
 import Select from '../../../../components/ui/select/select.component';
 import Button from '../../../../components/ui/button/button.component';
+import lessorApi from '../../../../services/axios/lessor/api';
+import { CarInterface } from '../../../../interfaces/car';
 
 interface CarCreateDashboardProps {}
 
-interface CreateCarFormFields {
-  manufacturer: string;
-  model: string;
-  fuelType: string;
-  transmissionType: string;
-  engineCapacity: number;
-  passengersNumber: number;
-}
-
 const CarCreateDashboard: FC<CarCreateDashboardProps> = ({}) => {
-  const onSubmit = async (formFields: CreateCarFormFields) => {
-    console.log(formFields);
+  const onSubmit = async (car: CarInterface) => {
+    lessorApi.createCar(car);
   };
   return (
     <Dashboard>

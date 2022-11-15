@@ -39,4 +39,10 @@ class RegistrationRequest extends AbstractBaseRequest
         Assert\Type('string'),
     ]
     protected $password;
+
+    #[
+        Assert\Type('string'),
+    ]
+    protected $isLessor;
+
 }
