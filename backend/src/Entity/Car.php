@@ -46,6 +46,11 @@ class Car
     #[ORM\Column(type: 'decimal')]
     private float $engineCapacity;
 
+    #[ORM\ManyToOne(inversedBy: 'cars')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\Column(type: 'bigint')]
+    private ?Tariff $tariff = null;
+
 
     public function getFuelType(): string
     {
@@ -138,5 +143,17 @@ class Car
     public function setUser(UserInterface $user): void
     {
         $this->user = $user;
+    }
+
+    public function getTariff(): ?Tariff
+    {
+        return $this->tariff;
+    }
+
+    public function setTariff(?Tariff $tariff): self
+    {
+        $this->tariff = $tariff;
+
+        return $this;
     }
 }
