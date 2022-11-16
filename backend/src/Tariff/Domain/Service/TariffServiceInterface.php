@@ -11,5 +11,7 @@ interface TariffServiceInterface
 
     public function getAll():array;
 
-    public function getById():Tariff;
+    public function getById(int $id):Tariff;
+
+    public function getByName(string $name):?Tariff;
 }

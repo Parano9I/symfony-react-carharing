@@ -3,41 +3,32 @@
 namespace App\DataFixtures;
 
 use App\Entity\Tariff;
-use App\Tariff\Application\DTO\CreateTariffDTO;
-use App\Tariff\Domain\Service\TariffServiceInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
 
 class TariffFixtures extends Fixture
 {
 
-    public function __construct(
-        private TariffServiceInterface $tariffService
-    )
+    public function __construct()
     {
     }
 
-    private $tariffs = [
-        [
-            'name' => 'standard',
-            'price' => 5.00
-        ],
-        [
-            'name' => 'premium',
-            'price' => 17.00
-        ]
-    ];
-
     public function load(ObjectManager $manager)
     {
+        $tariffStandard = new Tariff();
+        $tariffStandard->setName('standard');
+        $tariffStandard->setPrice(5.20);
+        $manager->persist($tariffStandard);
 
-        foreach ($this->tariffs as $tariff){
-            $tariffDto = new CreateTariffDTO();
+        $tariffPremium = new Tariff();
+        $tariffPremium->setName('premium');
+        $tariffPremium->setPrice(21.90);
+        $manager->persist($tariffPremium);
 
-            $tariffDto->name = $tariff['name'];
-            $tariffDto->price = $tariff['price'];
+        $manager->flush();
 
-            $this->tariffService->create($tariffDto);
-        }
+        $this->addReference('tariffStandard', $tariffStandard);
+        $this->addReference('tariffPremium', $tariffPremium);
     }
 }

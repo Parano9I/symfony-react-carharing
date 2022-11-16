@@ -11,4 +11,6 @@ interface TariffRepositoryInterface
     public function save(Tariff $entity, bool $flush = false): void;
 
     public function remove(Tariff $entity, bool $flush = false): void;
+
+    public function getByName(string $name):?Tariff;
 }
