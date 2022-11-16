@@ -3,11 +3,12 @@
 namespace App\User\Domain\Service;
 
 use App\Entity\User;
+use App\User\Application\DTO\CreateUserDTO;
 use Symfony\Component\PasswordHasher\Exception\InvalidPasswordException;
 
 interface UserServiceInterface
 {
-    public function create(array $data): User;
+    public function create(CreateUserDTO $dto): User;
 
     public function getByEmail($email): ?User;
 

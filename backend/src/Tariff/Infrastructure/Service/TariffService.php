@@ -36,8 +36,15 @@ class TariffService implements TariffServiceInterface
         return $tariffs;
     }
 
-    public function getById(): Tariff
+    public function getById(int $id): Tariff
     {
         return new Tariff();
+    }
+
+    public function getByName(string $name): ?Tariff
+    {
+        $tariff = $this->tariffRepository->getByName($name);
+
+        return $tariff;
     }
 }

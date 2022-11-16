@@ -2,6 +2,9 @@
 
 namespace App\Car\Application\DTO;
 
+use App\Entity\Tariff;
+use App\Entity\User;
+
 class CarDTO
 {
     public string $model;
@@ -17,6 +20,8 @@ class CarDTO
     public int $passengersNumber;
 
     public float $engineCapacity;
+
+    public int $tariffId;
 
     public function __construct()
     {

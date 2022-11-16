@@ -9,6 +9,7 @@ use App\Car\Application\DTO\CarDTO;
 use App\Car\Domain\Repository\CarRepositoryInterface;
 use App\Car\Domain\Service\CarServiceInterface;
 use App\Entity\Car;
+use App\Tariff\Domain\Service\TariffServiceInterface;
 use App\User\Infrastructure\Resource\UserResource;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -17,12 +18,14 @@ class CarService implements CarServiceInterface
 
     public function __construct(
         private CarRepositoryInterface $carRepository,
+        private TariffServiceInterface $tariffService
     ) {
     }
 
     public function create(CarDTO $dto, User $user): int
     {
         $car = new Car();
+        $tariff = $this->tariffService->getById($dto->tariffId);
 
         $car->setModel($dto->model);
         $car->setManufacturer($dto->manufacturer);
@@ -31,6 +34,7 @@ class CarService implements CarServiceInterface
         $car->setEngineCapacity($dto->engineCapacity);
         $car->setPassengersNumber($dto->passengersNumber);
         $car->setUser($user);
+        $car->setTariff($tariff);
 
         $this->carRepository->save($car, true);
 

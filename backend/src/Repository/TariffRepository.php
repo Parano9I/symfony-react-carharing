@@ -50,6 +50,15 @@ class TariffRepository extends ServiceEntityRepository implements TariffReposito
         return $tariffs;
     }
 
+    public function getByName(string $name): ?Tariff
+    {
+        $tariff = $this->findOneBy(['name' => $name]);
+
+        dump($tariff);
+
+        return $tariff;
+    }
+
 //    /**
 //     * @return Tariff[] Returns an array of Tariff objects
 //     */
