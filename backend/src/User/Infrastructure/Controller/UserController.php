@@ -2,6 +2,7 @@
 
 namespace App\User\Infrastructure\Controller;
 
+use App\User\Application\DTO\CreateUserDTO;
 use App\User\Domain\Service\AuthServiceInterface;
 use App\User\Domain\Service\UserServiceInterface;
 use App\User\Infrastructure\Request\RegistrationRequest;
@@ -27,8 +28,18 @@ class UserController extends AbstractController
     ): JsonResponse {
         $data = $request->validate()->toArray();
 
+        $userDto = new CreateUserDTO();
+
+        $userDto->firstName = $data['first_name'];
+        $userDto->lastName = $data['last_name'];
+        $userDto->email = $data['email'];
+        $userDto->phone = $data['phone'];
+        $userDto->password = $data['password'];
+        $userDto->isLessor = $data['isLessor'] ? true : false;
+
+
         try {
-            $user = $this->userService->create($data);
+            $user = $this->userService->create($userDto);
             $token = $this->authService->login($user);
         } catch (BadCredentialsException $exception) {
             return $this->json([

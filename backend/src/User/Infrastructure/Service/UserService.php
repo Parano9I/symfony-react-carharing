@@ -3,6 +3,7 @@
 namespace App\User\Infrastructure\Service;
 
 use App\Entity\User;
+use App\User\Application\DTO\CreateUserDTO;
 use App\User\Domain\Repository\UserRepositoryInterface;
 use App\User\Domain\Service\UserServiceInterface;
 use App\User\Infrastructure\Resource\UserResource;
@@ -23,22 +24,22 @@ class UserService implements UserServiceInterface
         $this->userRepository = $userRepository;
     }
 
-    public function create(array $data): User
+    public function create(CreateUserDTO $dto): User
     {
-        if ($this->getByEmail($data['email'])) {
+        if ($this->getByEmail($dto->email)) {
             throw new BadCredentialsException('User with this email is already registered', 422);
         }
 
         $user = new User();
 
-        $user->setFirstName($data['first_name']);
-        $user->setLastName($data['last_name']);
-        $user->setEmail($data['email']);
-        $user->setPhone($data['phone']);
+        $user->setFirstName($dto->firstName);
+        $user->setLastName($dto->lastName);
+        $user->setEmail($dto->email);
+        $user->setPhone($dto->phone);
         $user->setRoles($user->getRoles());
-        $user->setPassword($this->hashedPassword($data['password'], $user));
+        $user->setPassword($this->hashedPassword($dto->password, $user));
 
-        if($data['isLessor']){
+        if($dto->isLessor){
             $user->setRoles(['ROLE_LESSOR']);
         }
 
