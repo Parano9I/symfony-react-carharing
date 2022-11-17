@@ -10,6 +10,7 @@ use App\Car\Domain\Repository\CarRepositoryInterface;
 use App\Car\Domain\Service\CarServiceInterface;
 use App\Entity\Car;
 use App\Tariff\Domain\Service\TariffServiceInterface;
+use App\Tariff\Infrastructure\Resource\TariffResource;
 use App\User\Infrastructure\Resource\UserResource;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -50,11 +51,13 @@ class CarService implements CarServiceInterface
 
         $carResource = new CarResource();
         $userResource = new UserResource();
+        $tariffResource = new TariffResource();
 
         return [
             'cars' => array_map(fn($car) => [
                 'car' => $carResource($car),
-                'lessor' => $userResource($car->getUser())
+                'lessor' => $userResource($car->getUser()),
+                'tariff' => $tariffResource($car->getTariff())
             ], $cars),
             'pagination' => $pagination,
         ];

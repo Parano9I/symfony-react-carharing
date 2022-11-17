@@ -62,16 +62,22 @@ class CarRepository extends ServiceEntityRepository implements CarRepositoryInte
                 'u',
                 \Doctrine\ORM\Query\Expr\Join::WITH,
                 'c.user=u.id'
+            )
+            ->innerJoin(
+                'c.tariff',
+                't',
+                \Doctrine\ORM\Query\Expr\Join::WITH,
+                'c.tariff=t.id'
             );
 
-            $query = (new Pipeline())->send($query)
-                ->setParams($queryParamsDTO)
-                ->through([
-                    ManufacturerFilter::class,
-                    FuelFilter::class
-                ])
-                ->thenReturn()
-                ->getQuery();
+        $query = (new Pipeline())->send($query)
+            ->setParams($queryParamsDTO)
+            ->through([
+                ManufacturerFilter::class,
+                FuelFilter::class
+            ])
+            ->thenReturn()
+            ->getQuery();
 
         return $this->pagination->paginate($query, $numberPage, 2);
     }

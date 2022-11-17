@@ -31,7 +31,7 @@ class Car
     private ?string $image = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'cars')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?UserInterface $user = null;
 
     #[ORM\Column(type: 'string', length: 100)]
@@ -46,9 +46,8 @@ class Car
     #[ORM\Column(type: 'decimal')]
     private float $engineCapacity;
 
-    #[ORM\ManyToOne(inversedBy: 'cars')]
+    #[ORM\ManyToOne(targetEntity: Tariff::class, inversedBy: 'cars')]
     #[ORM\JoinColumn(nullable: false)]
-    #[ORM\Column(type: 'bigint')]
     private ?Tariff $tariff = null;
 
 
