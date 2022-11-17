@@ -38,7 +38,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     private $roles = [];
 
     #[ORM\OneToMany(targetEntity: Car::class, mappedBy: 'user')]
-    private $cars;
+    private Collection $cars;
 
     public function __construct()
     {

@@ -9,17 +9,20 @@ class CarsGetAllQueryParamsDTO
     public ?array $fuelType;
     public ?array $transmissionType;
     public ?array $passengers;
+    public int $tariffId;
 
     public function __construct(
         int $page,
         ?string $manufacturer,
         ?string $fuelType,
         ?string $transmissionType,
-        ?string $passengers
+        ?string $passengers,
+        ?int $tariffId
     ) {
         $this->page = $this->setPageNumber($page);
         $this->fuelType = $this->setArrayParams($fuelType);
         $this->manufacturer = $this->setArrayParams($manufacturer);
+        $this->tariffId = $tariffId;
     }
 
     private function setArrayParams(?string $params):?array {

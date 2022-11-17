@@ -22,7 +22,7 @@ class CarController extends AbstractController
     }
 
     #[Route('/api/cars/', methods: ['GET'])]
-    public function all(Request $request):JsonResponse
+    public function all(Request $request): JsonResponse
     {
         $queryParamsDTO = new CarsGetAllQueryParamsDTO(
             $request->query->getInt('page'),
@@ -30,6 +30,7 @@ class CarController extends AbstractController
             $request->query->get('fuelType'),
             $request->query->get('transmissionType'),
             $request->query->get('passengersNumber'),
+            (int)$request->query->get('tariffId')
         );
 
         $data = $this->carService->getAll($queryParamsDTO);
@@ -39,8 +40,8 @@ class CarController extends AbstractController
     }
 
     #[Route('/api/cars/filters', methods: ['GET'])]
-    public function allFilters(): JsonResponse{
-
+    public function allFilters(): JsonResponse
+    {
         $data = $this->carService->getAllFilters();
 
         return $this->json(['data' => $data]);
