@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { UserInterface } from '../../interfaces/user';
 import { logout } from '../../services/axios/user/api';
 import { store } from '../../store';
+import browserRouter from '../../routes';
+import routes from '../../routes';
 
 interface HeaderProps {
   className?: string;
@@ -15,9 +17,11 @@ const Header: FC<HeaderProps> = ({ className }) => {
   const dispatch = useAppDispatch();
   const user: UserInterface | null = useAppSelector((state) => state.user.user);
   const handleLogout = async () => {
-    await logout();
-    dispatch(removeUser());
-    dispatch(removeTokens());
+    try {
+      await logout();
+      dispatch(removeUser());
+      dispatch(removeTokens());
+    } catch (error) {}
   };
 
   return (

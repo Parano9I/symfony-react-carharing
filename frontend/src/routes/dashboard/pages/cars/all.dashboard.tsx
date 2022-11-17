@@ -11,8 +11,10 @@ const CarsAllDashboard: FC<CarsDashboardProps> = () => {
 
   useEffect(() => {
     (async () => {
-      const { cars, pagination } = await lessorApi.getCars();
-      setCarsState([...cars]);
+      try {
+        const { cars, pagination } = await lessorApi.getCars();
+        setCarsState([...cars]);
+      } catch (error) {}
     })();
   }, []);
 
