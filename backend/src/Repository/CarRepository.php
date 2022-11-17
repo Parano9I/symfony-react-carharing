@@ -6,6 +6,7 @@ use App\Car\Application\DTO\CarsGetAllQueryParamsDTO;
 use App\Car\Domain\Repository\CarRepositoryInterface;
 use App\Car\Infrastructure\Filters\FuelFilter;
 use App\Car\Infrastructure\Filters\ManufacturerFilter;
+use App\Car\Infrastructure\Filters\TariffFilter;
 use App\Entity\Car;
 use App\Entity\User;
 use App\Shared\Domain\PaginationInterface;
@@ -62,22 +63,23 @@ class CarRepository extends ServiceEntityRepository implements CarRepositoryInte
                 'u',
                 \Doctrine\ORM\Query\Expr\Join::WITH,
                 'c.user=u.id'
-            )
-            ->innerJoin(
-                'c.tariff',
-                't',
-                \Doctrine\ORM\Query\Expr\Join::WITH,
-                'c.tariff=t.id'
             );
 
         $query = (new Pipeline())->send($query)
             ->setParams($queryParamsDTO)
             ->through([
                 ManufacturerFilter::class,
-                FuelFilter::class
+                FuelFilter::class,
+                TariffFilter::class
             ])
-            ->thenReturn()
-            ->getQuery();
+            ->thenReturn();
+
+        $query = $query->innerJoin(
+            'c.tariff',
+            't',
+            \Doctrine\ORM\Query\Expr\Join::WITH,
+            'c.tariff=t.id'
+        )->getQuery();
 
         return $this->pagination->paginate($query, $numberPage, 2);
     }
@@ -101,7 +103,6 @@ class CarRepository extends ServiceEntityRepository implements CarRepositoryInte
 
         return $query->getSingleColumnResult();
     }
-
 
 
     //    /**

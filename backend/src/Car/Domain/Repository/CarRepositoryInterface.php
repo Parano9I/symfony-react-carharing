@@ -20,4 +20,5 @@ interface CarRepositoryInterface
     public function getById(int $id): ?Car;
 
     public function getDistinctValueByField(string $fieldName):array;
+
 }

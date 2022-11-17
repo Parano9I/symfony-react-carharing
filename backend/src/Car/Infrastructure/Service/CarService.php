@@ -5,7 +5,7 @@ namespace App\Car\Infrastructure\Service;
 use App\Car\Application\DTO\CarsGetAllQueryParamsDTO;
 use App\Car\Infrastructure\Resource\CarResource;
 use App\Entity\User;
-use App\Car\Application\DTO\CarDTO;
+use App\Car\Application\DTO\CreateCarDTO;
 use App\Car\Domain\Repository\CarRepositoryInterface;
 use App\Car\Domain\Service\CarServiceInterface;
 use App\Entity\Car;
@@ -23,17 +23,17 @@ class CarService implements CarServiceInterface
     ) {
     }
 
-    public function create(CarDTO $dto, User $user): int
+    public function create(array $data, User $user): int
     {
         $car = new Car();
-        $tariff = $this->tariffService->getById($dto->tariffId);
+        $tariff = $this->tariffService->getById($data['tariffId']);
 
-        $car->setModel($dto->model);
-        $car->setManufacturer($dto->manufacturer);
-        $car->setTransmissionType($dto->transmissionType);
-        $car->setFuelType($dto->fuelType);
-        $car->setEngineCapacity($dto->engineCapacity);
-        $car->setPassengersNumber($dto->passengersNumber);
+        $car->setModel($data['model']);
+        $car->setManufacturer($data['manufacturer']);
+        $car->setTransmissionType($data['transmissionType']);
+        $car->setFuelType($data['fuelType']);
+        $car->setEngineCapacity($data['engineCapacity']);
+        $car->setPassengersNumber($data['passengersNumber']);
         $car->setUser($user);
         $car->setTariff($tariff);
 
