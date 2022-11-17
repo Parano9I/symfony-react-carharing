@@ -16,8 +16,6 @@ class CarController extends AbstractController
 
     public function __construct(
         private CarServiceInterface $carService,
-        private CarResource $carResource,
-        private UserResource $userResource
     ) {
     }
 
@@ -34,7 +32,6 @@ class CarController extends AbstractController
         );
 
         $data = $this->carService->getAll($queryParamsDTO);
-
 
         return $this->json(['data' => $data]);
     }

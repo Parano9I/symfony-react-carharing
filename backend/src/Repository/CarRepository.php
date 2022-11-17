@@ -81,7 +81,7 @@ class CarRepository extends ServiceEntityRepository implements CarRepositoryInte
             'c.tariff=t.id'
         )->getQuery();
 
-        return $this->pagination->paginate($query, $numberPage, 2);
+        return $this->pagination->paginate($query, $numberPage, 4);
     }
 
     public function getAllByUser(User $user): array
