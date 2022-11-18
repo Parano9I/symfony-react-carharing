@@ -25,6 +25,8 @@ class LessorCarController extends AbstractController
         $data = $request->validate()->toArray();
         $user = $this->getUser();
 
+        dd($data);
+
         $carId = $this->carService->create($data, $user);
 
         return $this->json(['data' => [

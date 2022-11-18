@@ -10,6 +10,9 @@ const httpClient = axios.create({
   baseURL: 'http://localhost:8080/api/',
   headers: {
     'Content-Type': 'application/json'
+    // 'Content-Type': 'multipart/form-data',
+    // 'Access-Control-Allow-Origin': 'http://localhost:8080',
+    // 'Access-Control-Allow-Credentials': 'true'
   }
 });
 

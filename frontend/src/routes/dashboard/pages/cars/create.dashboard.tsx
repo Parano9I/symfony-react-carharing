@@ -8,6 +8,7 @@ import lessorApi from '../../../../services/axios/lessor/api';
 import { CarInterface } from '../../../../interfaces/car';
 import Notification from '../../../../components/notification/notification.component';
 import { NotificationInterface } from '../../../../components/notification/NotificationInterface';
+import UploadImage from '../../../../components/ui/uploadImage/uploadImage.component';
 
 interface CarCreateDashboardProps {}
 
@@ -15,14 +16,16 @@ const CarCreateDashboard: FC<CarCreateDashboardProps> = ({}) => {
   const [notificationMessage, setNotificationMessage] =
     useState<NotificationInterface | null>(null);
   const onSubmit = async (car: CarInterface) => {
-    const response = await lessorApi.createCar(car);
-
-    if (response.status === 'success') {
-      setNotificationMessage({
-        status: 'success',
-        message: 'Car added successfully'
-      });
-    }
+    try {
+      console.log(car);
+      const response = await lessorApi.createCar(car);
+      if (response.status === 'success') {
+        setNotificationMessage({
+          status: 'success',
+          message: 'Car added successfully'
+        });
+      }
+    } catch (error) {}
   };
   return (
     <Dashboard>
@@ -90,7 +93,9 @@ const CarCreateDashboard: FC<CarCreateDashboardProps> = ({}) => {
               required={true}
             />
           </div>
-          <div className="p-2"></div>
+          <div className="flex flex-cols justify-center p-2">
+            <UploadImage name="image" />
+          </div>
         </div>
         <Button className="self-end mr-4">Create a car</Button>
       </Form>
