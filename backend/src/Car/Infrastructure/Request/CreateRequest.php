@@ -42,4 +42,8 @@ class CreateRequest extends AbstractBaseRequest
         Assert\Type('float')
     ]
     public float $engineCapacity;
+
+    #[
+        Assert\Image()]
+    public string $image;
 }

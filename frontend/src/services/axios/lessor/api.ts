@@ -15,7 +15,11 @@ const getCars = async (): Promise<GetCarsResponseInterface> => {
 const createCar = async (
   car: CarInterface
 ): Promise<CreateCarResponseInterface> => {
-  const response = await httpClient.post('/lessor/cars/', { ...car });
+  const response = await httpClient.post('/lessor/cars/', car, {
+    headers: {
+      'content-type': 'multipart/form-data'
+    }
+  });
   const result: CreateCarResponseInterface = response.data.data;
 
   return result;

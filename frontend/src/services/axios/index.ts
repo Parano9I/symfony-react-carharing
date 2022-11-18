@@ -9,9 +9,9 @@ import { useAppDispatch } from '../../hooks/reduxHooks';
 const httpClient = axios.create({
   baseURL: 'http://localhost:8080/api/',
   headers: {
-    'Content-Type': 'application/json'
-    // 'Content-Type': 'multipart/form-data',
-    // 'Access-Control-Allow-Origin': 'http://localhost:8080',
+    // 'Content-Type': 'application/json'
+    // 'Content-Type': 'multipart/form-data'
+    // 'Access-Control-Allow-Origin': 'http://localhost:8080'
     // 'Access-Control-Allow-Credentials': 'true'
   }
 });
@@ -51,11 +51,12 @@ httpClient.interceptors.response.use(
         } catch (error) {
           return Promise.reject(error);
         }
-      } else {
-        store.dispatch(removeUser());
-        store.dispatch(removeTokens());
-        window.location.href = '/auth/login';
       }
+      // } else {
+      //   store.dispatch(removeUser());
+      //   store.dispatch(removeTokens());
+      //   window.location.href = '/auth/login';
+      // }
     }
     return Promise.reject(error);
   }

@@ -20,6 +20,7 @@ const Form: FC<FormProps> = ({ children, className = '', onSubmit }) => {
     event.preventDefault();
     const form: HTMLFormElement = event.currentTarget;
     let formFields: { [key: string]: string } = {};
+    const formData = new FormData();
 
     for (let i = 0; i < form.length; i++) {
       const field = form[i];
@@ -32,10 +33,11 @@ const Form: FC<FormProps> = ({ children, className = '', onSubmit }) => {
         const fieldValue = field.value;
 
         formFields[fieldName] = fieldValue;
+        formData.append(fieldName, fieldValue);
       }
     }
 
-    onSubmit(formFields);
+    onSubmit(formData);
   };
 
   return (
