@@ -26,6 +26,7 @@ class LessorCarController extends AbstractController
         $data = $request;
 
         dd($request->files->get('image'));
+//        return $this->json([json_encode($request->files->get('image'))]);
 
         $user = $this->getUser();
 

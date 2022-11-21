@@ -20,7 +20,7 @@ const Form: FC<FormProps> = ({ children, className = '', onSubmit }) => {
     event.preventDefault();
     const form: HTMLFormElement = event.currentTarget;
     let formFields: { [key: string]: string } = {};
-    const formData = new FormData();
+    // const formData = new FormData();
 
     for (let i = 0; i < form.length; i++) {
       const field = form[i];
@@ -30,14 +30,23 @@ const Form: FC<FormProps> = ({ children, className = '', onSubmit }) => {
         field instanceof HTMLSelectElement
       ) {
         const fieldName = field.name;
-        const fieldValue = field.value;
+        let fieldValue;
+
+        // if (field.type === 'file') {
+        //   fieldValue = field.files;
+        // } else {
+        fieldValue = field.value;
+        // }
 
         formFields[fieldName] = fieldValue;
-        formData.append(fieldName, fieldValue);
+        // formData.append(fieldName, fieldValue);
       }
     }
 
-    onSubmit(formData);
+    // formData.append('destination', 'image');
+    // formData.append('create_thumbnail', 'true');
+
+    onSubmit(formFields);
   };
 
   return (
