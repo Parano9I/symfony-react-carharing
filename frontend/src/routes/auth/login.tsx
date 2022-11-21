@@ -1,4 +1,4 @@
-import { FC, FormEvent, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import Container from '../../components/container/container.component';
 import Header from '../../components/header/header.component';
 import Input from '../../components/ui/input/input.component';
@@ -30,8 +30,8 @@ const Login: FC<LoginPageProps> = ({}) => {
     password: ''
   });
 
-  const handleInputChange = (value: string, field: string) => {
-    setUser({ ...user, [field]: value });
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    console.log(event);
   };
 
   const handleSubmit = async (event: FormEvent) => {
@@ -79,7 +79,7 @@ const Login: FC<LoginPageProps> = ({}) => {
                 label="Email"
                 required={true}
                 className="col-span-2"
-                onChange={(value) => handleInputChange(value, 'email')}
+                onChange={handleInputChange}
               />
               <Input
                 name="password"
@@ -87,7 +87,7 @@ const Login: FC<LoginPageProps> = ({}) => {
                 label="Password"
                 required={true}
                 className="col-span-2"
-                onChange={(value) => handleInputChange(value, 'password')}
+                onChange={handleInputChange}
               />
               <button
                 type="submit"

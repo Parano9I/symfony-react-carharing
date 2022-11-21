@@ -6,7 +6,9 @@ import httpClient from '../index';
 import { UserInterface, UserTokensInterface } from '../../../interfaces/user';
 import { store } from '../../../store';
 
-export const createUser: UserCreateFuncInterface = async (data) => {
+export const createUser = async (
+  data: FormData
+): Promise<UserLoginResponseInterface> => {
   const response = await httpClient.post('/user', data);
   const result = response.data;
 

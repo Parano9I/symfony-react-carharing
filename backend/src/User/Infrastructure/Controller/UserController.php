@@ -26,7 +26,7 @@ class UserController extends AbstractController
         RegistrationRequest $request,
         UserResource $resource,
     ): JsonResponse {
-        $data = $request->validate()->toArray();
+        $data = $request->validate()->request->all();
 
         $userDto = new CreateUserDTO();
 

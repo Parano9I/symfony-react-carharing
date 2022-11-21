@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import Container from '../../components/container/container.component';
 import Header from '../../components/header/header.component';
 import Input from '../../components/ui/input/input.component';
@@ -13,10 +13,11 @@ import Notification from '../../components/notification/notification.component';
 import { useNavigate } from 'react-router-dom';
 import Checkbox from '../../components/ui/checkbox/checkbox.component';
 import { NotificationInterface } from '../../components/notification/NotificationInterface';
+import useFormData from '../../hooks/formDataHook';
 
 interface RegisterPageProps {}
 
-interface RegisterFormFields {
+interface RegisterFormData {
   first_name: string;
   last_name: string;
   email: string;
@@ -26,31 +27,41 @@ interface RegisterFormFields {
 }
 
 const Register: FC<RegisterPageProps> = ({}) => {
+  const { handleHookSubmit, handleInputChange } = useFormData<RegisterFormData>(
+    {
+      first_name: '',
+      last_name: '',
+      email: '',
+      phone: '',
+      password: '',
+      confirm_password: ''
+    }
+  );
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const [notificationMessage, setNotificationMessage] =
     useState<NotificationInterface | null>(null);
 
-  const onSubmit = async (formFields: RegisterFormFields) => {
-    if (formFields) {
-      try {
-        const response = await createUser(formFields);
-        const user: UserInterface = response.user;
-        const tokens: UserTokensInterface = response.tokens;
+  const handleSubmit = async (formData: FormData) => {
+    try {
+      const response = await createUser(formData);
+      const user: UserInterface = response.user;
+      const tokens: UserTokensInterface = response.tokens;
 
-        dispatch(addUser(user));
-        dispatch(addTokens(tokens));
+      dispatch(addUser(user));
+      dispatch(addTokens(tokens));
 
-        navigate('/');
-      } catch (error) {
-        const err = error as AxiosError<any>;
-        const data: ErrorDataInterface = err.response?.data;
-        if (data) {
-          setNotificationMessage({
-            status: 'error',
-            message: data.message
-          });
-        }
+      navigate('/');
+    } catch (error) {
+      const err = error as AxiosError<any>;
+      const data: ErrorDataInterface = err.response?.data;
+      if (data) {
+        setNotificationMessage({
+          status: 'error',
+          message: data.message
+        });
       }
     }
   };
@@ -61,17 +72,43 @@ const Register: FC<RegisterPageProps> = ({}) => {
       <main className="relative">
         <Container className="flex grow shrink flex-col pt-10">
           <div className="w-2/5 self-end bg-white p-4 rounded-xl shadow-2xl">
-            <Form className="grid grid-cols-2 gap-2" onSubmit={onSubmit}>
-              <Input name="first_name" label="First name" required={true} />
-              <Input name="last_name" label="Last name" required={true} />
-              <Input name="email" type="email" label="Email" required={true} />
-              <Input type="number" name="phone" label="Phone" required={true} />
+            <form
+              onSubmit={(e) => handleHookSubmit(handleSubmit, e)}
+              className="grid grid-cols-2 gap-2"
+            >
+              <Input
+                name="first_name"
+                label="First name"
+                onChange={handleInputChange}
+                required={true}
+              />
+              <Input
+                name="last_name"
+                label="Last name"
+                required={true}
+                onChange={handleInputChange}
+              />
+              <Input
+                name="email"
+                type="email"
+                label="Email"
+                required={true}
+                onChange={handleInputChange}
+              />
+              <Input
+                type="number"
+                name="phone"
+                label="Phone"
+                required={true}
+                onChange={handleInputChange}
+              />
               <Input
                 name="password"
                 type="password"
                 label="Password"
                 required={true}
                 className="col-span-2"
+                onChange={handleInputChange}
               />
               <Input
                 name="confirm_password"
@@ -79,6 +116,7 @@ const Register: FC<RegisterPageProps> = ({}) => {
                 label="Confirm password"
                 required={true}
                 className="col-span-2"
+                onChange={handleInputChange}
               />
               <div className="col-span-2">
                 <Checkbox
@@ -87,14 +125,13 @@ const Register: FC<RegisterPageProps> = ({}) => {
                   label="I want to rent cars"
                 />
               </div>
-
               <button
                 type="submit"
                 className="bg-orange-700 rounded-sm py-2 text-white hover:bg-orange-800"
               >
                 Register
               </button>
-            </Form>
+            </form>
           </div>
         </Container>
         {notificationMessage ? (

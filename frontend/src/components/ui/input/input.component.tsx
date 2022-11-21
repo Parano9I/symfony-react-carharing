@@ -6,7 +6,7 @@ interface InputProps {
   className?: string;
   required?: boolean;
   label: string;
-  onChange?: (state: string) => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Input: FC<InputProps> = ({
@@ -17,14 +17,6 @@ const Input: FC<InputProps> = ({
   className = '',
   onChange
 }) => {
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const eventValue = event.target.value;
-
-    if (onChange) {
-      onChange(eventValue);
-    }
-  };
-
   return (
     <label className={`flex flex-col ${className}`}>
       <span>
@@ -36,7 +28,7 @@ const Input: FC<InputProps> = ({
         type={type}
         id={name}
         name={name}
-        onChange={handleChange}
+        onChange={onChange}
         required={required}
       />
     </label>
