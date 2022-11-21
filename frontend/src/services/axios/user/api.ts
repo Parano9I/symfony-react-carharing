@@ -1,4 +1,7 @@
-import { UserCreateFuncInterface, UserLoginFuncInterface } from './interfaces';
+import {
+  UserCreateFuncInterface,
+  UserLoginResponseInterface
+} from './interfaces';
 import httpClient from '../index';
 import { UserInterface, UserTokensInterface } from '../../../interfaces/user';
 import { store } from '../../../store';
@@ -16,8 +19,12 @@ export const createUser: UserCreateFuncInterface = async (data) => {
   };
 };
 
-export const login: UserLoginFuncInterface = async (data) => {
-  const response = await httpClient.post('/auth/login', data);
+export const login = async (
+  data: FormData
+): Promise<UserLoginResponseInterface> => {
+  const response = await httpClient.post('/auth/login', data, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
   const result = response.data;
 
   const user: UserInterface = result.user;

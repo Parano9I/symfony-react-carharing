@@ -62,21 +62,21 @@ const Register: FC<RegisterPageProps> = ({}) => {
         <Container className="flex grow shrink flex-col pt-10">
           <div className="w-2/5 self-end bg-white p-4 rounded-xl shadow-2xl">
             <Form className="grid grid-cols-2 gap-2" onSubmit={onSubmit}>
-              <Input name="first_name" title="First name" required={true} />
-              <Input name="last_name" title="Last name" required={true} />
-              <Input name="email" type="email" title="Email" required={true} />
-              <Input type="number" name="phone" title="Phone" required={true} />
+              <Input name="first_name" label="First name" required={true} />
+              <Input name="last_name" label="Last name" required={true} />
+              <Input name="email" type="email" label="Email" required={true} />
+              <Input type="number" name="phone" label="Phone" required={true} />
               <Input
                 name="password"
                 type="password"
-                title="Password"
+                label="Password"
                 required={true}
                 className="col-span-2"
               />
               <Input
                 name="confirm_password"
                 type="password"
-                title="Confirm password"
+                label="Confirm password"
                 required={true}
                 className="col-span-2"
               />

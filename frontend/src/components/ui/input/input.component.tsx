@@ -1,26 +1,34 @@
-import { FC, useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 
 interface InputProps {
   type?: 'email' | 'password' | 'number';
   name: string;
   className?: string;
   required?: boolean;
-  title: string;
+  label: string;
+  onChange?: (state: string) => void;
 }
 
 const Input: FC<InputProps> = ({
   type = 'text',
   name,
   required = false,
-  title,
-  className = ''
+  label,
+  className = '',
+  onChange
 }) => {
-  const [value, setValue] = useState('');
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const eventValue = event.target.value;
+
+    if (onChange) {
+      onChange(eventValue);
+    }
+  };
 
   return (
     <label className={`flex flex-col ${className}`}>
       <span>
-        {title}
+        {label}
         {required ? <span className="text-red-800">*</span> : ''}
       </span>
       <input
@@ -28,7 +36,7 @@ const Input: FC<InputProps> = ({
         type={type}
         id={name}
         name={name}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={handleChange}
         required={required}
       />
     </label>

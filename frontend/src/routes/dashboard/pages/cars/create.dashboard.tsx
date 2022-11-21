@@ -1,15 +1,11 @@
 import Dashboard from '../../../../components/dashboardPageWrapper/dashboard.component';
-import Form from '../../../../components/form/form.component';
 import Input from '../../../../components/ui/input/input.component';
 import { FC, useState } from 'react';
 import Select from '../../../../components/ui/select/select.component';
 import Button from '../../../../components/ui/button/button.component';
-import lessorApi from '../../../../services/axios/lessor/api';
-import { CarInterface } from '../../../../interfaces/car';
 import Notification from '../../../../components/notification/notification.component';
 import { NotificationInterface } from '../../../../components/notification/NotificationInterface';
 import UploadImage from '../../../../components/ui/uploadImage/uploadImage.component';
-import { useForm } from 'react-hook-form';
 
 interface CarCreateDashboardProps {}
 
@@ -26,12 +22,6 @@ interface FormData {
 const CarCreateDashboard: FC<CarCreateDashboardProps> = ({}) => {
   const [notificationMessage, setNotificationMessage] =
     useState<NotificationInterface | null>(null);
-  const {
-    register,
-    setValue,
-    handleSubmit,
-    formState: { errors }
-  } = useForm<FormData>();
 
   // const onSubmit = async (car: CarInterface) => {
   //   try {
@@ -63,13 +53,13 @@ const CarCreateDashboard: FC<CarCreateDashboardProps> = ({}) => {
             <Input
               className="mb-2"
               name="manufacturer"
-              title="Manufacturer"
+              label="Manufacturer"
               required={true}
             />
             <Input
               className="mb-2"
               name="model"
-              title="Model"
+              label="Model"
               required={true}
             />
             <h2 className="text-xl mb-2">Characteristics</h2>
@@ -106,7 +96,7 @@ const CarCreateDashboard: FC<CarCreateDashboardProps> = ({}) => {
               className="mb-2"
               name="engineCapacity"
               type="number"
-              title="Engine Capacity"
+              label="Engine Capacity"
               required={true}
             />
           </div>
