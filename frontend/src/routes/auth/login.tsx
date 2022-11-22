@@ -11,10 +11,11 @@ import { UserInterface, UserTokensInterface } from '../../interfaces/user';
 import { addTokens, addUser } from '../../store/slices/user';
 import { AxiosError } from 'axios';
 import { ErrorDataInterface } from '../../services/axios/interfaces';
+import useFormData from '../../hooks/formDataHook';
 
 interface LoginPageProps {}
 
-interface FormData {
+interface LoginFormData {
   email: string;
   password: string;
 }
@@ -25,22 +26,13 @@ const Login: FC<LoginPageProps> = ({}) => {
 
   const [notificationMessage, setNotificationMessage] =
     useState<NotificationInterface | null>(null);
-  const [user, setUser] = useState<FormData>({
+
+  const { handleHookSubmit, handleInputChange } = useFormData<LoginFormData>({
     email: '',
     password: ''
   });
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    console.log(event);
-  };
-
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-
-    const formData = new FormData();
-    formData.append('email', user.email);
-    formData.append('password', user.password);
-
+  const handleSubmit = async (formData: FormData) => {
     try {
       const response = await login(formData);
       const user: UserInterface = response.user;
@@ -70,7 +62,7 @@ const Login: FC<LoginPageProps> = ({}) => {
           <div className="w-2/5 self-end bg-white p-4 rounded-xl shadow-2xl">
             <form
               action=""
-              onSubmit={handleSubmit}
+              onSubmit={(e) => handleHookSubmit(handleSubmit, e)}
               className="grid grid-cols-2 gap-2"
             >
               <Input
