@@ -1,29 +1,39 @@
 import Dashboard from '../../../../components/dashboardPageWrapper/dashboard.component';
-import Form from '../../../../components/form/form.component';
 import Input from '../../../../components/ui/input/input.component';
 import { FC, useState } from 'react';
 import Select from '../../../../components/ui/select/select.component';
 import Button from '../../../../components/ui/button/button.component';
-import lessorApi from '../../../../services/axios/lessor/api';
-import { CarInterface } from '../../../../interfaces/car';
 import Notification from '../../../../components/notification/notification.component';
 import { NotificationInterface } from '../../../../components/notification/NotificationInterface';
+import UploadImage from '../../../../components/ui/uploadImage/uploadImage.component';
 
 interface CarCreateDashboardProps {}
+
+interface FormData {
+  model: string;
+  manufacturer: string;
+  image: ImageData;
+  fuelType: string;
+  transmissionsType: string;
+  passengersNumber: number;
+  engineCapacity: number;
+}
 
 const CarCreateDashboard: FC<CarCreateDashboardProps> = ({}) => {
   const [notificationMessage, setNotificationMessage] =
     useState<NotificationInterface | null>(null);
-  const onSubmit = async (car: CarInterface) => {
-    const response = await lessorApi.createCar(car);
 
-    if (response.status === 'success') {
-      setNotificationMessage({
-        status: 'success',
-        message: 'Car added successfully'
-      });
-    }
-  };
+  // const onSubmit = async (car: CarInterface) => {
+  //   try {
+  //     const response = await lessorApi.createCar(car);
+  //     if (response.status === 'success') {
+  //       setNotificationMessage({
+  //         status: 'success',
+  //         message: 'Car added successfully'
+  //       });
+  //     }
+  //   } catch (error) {}
+  // };
   return (
     <Dashboard>
       {notificationMessage ? (
@@ -36,20 +46,20 @@ const CarCreateDashboard: FC<CarCreateDashboardProps> = ({}) => {
       ) : (
         ''
       )}
-      <Form onSubmit={onSubmit} className="flex flex-col h-full">
+      <form action="" className="flex flex-col h-full">
         <div className="grid grid-cols-2">
           <div className="p-2">
             <h2 className="text-xl mb-2">Main</h2>
             <Input
               className="mb-2"
               name="manufacturer"
-              title="Manufacturer"
+              label="Manufacturer"
               required={true}
             />
             <Input
               className="mb-2"
               name="model"
-              title="Model"
+              label="Model"
               required={true}
             />
             <h2 className="text-xl mb-2">Characteristics</h2>
@@ -86,14 +96,18 @@ const CarCreateDashboard: FC<CarCreateDashboardProps> = ({}) => {
               className="mb-2"
               name="engineCapacity"
               type="number"
-              title="Engine Capacity"
+              label="Engine Capacity"
               required={true}
             />
           </div>
-          <div className="p-2"></div>
+          <div className="flex flex-cols justify-center p-2">
+            <UploadImage name="image" />
+          </div>
         </div>
-        <Button className="self-end mr-4">Create a car</Button>
-      </Form>
+        <Button className="self-end mr-4" type="submit">
+          Create a car
+        </Button>
+      </form>
     </Dashboard>
   );
 };

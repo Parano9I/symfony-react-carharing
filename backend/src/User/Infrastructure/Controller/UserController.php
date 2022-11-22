@@ -26,7 +26,7 @@ class UserController extends AbstractController
         RegistrationRequest $request,
         UserResource $resource,
     ): JsonResponse {
-        $data = $request->validate()->toArray();
+        $data = $request->validate()->request->all();
 
         $userDto = new CreateUserDTO();
 
@@ -35,8 +35,7 @@ class UserController extends AbstractController
         $userDto->email = $data['email'];
         $userDto->phone = $data['phone'];
         $userDto->password = $data['password'];
-        $userDto->isLessor = $data['isLessor'] ? true : false;
-
+        $userDto->isLessor = filter_var($data['is_lessor'], FILTER_VALIDATE_BOOL);
 
         try {
             $user = $this->userService->create($userDto);

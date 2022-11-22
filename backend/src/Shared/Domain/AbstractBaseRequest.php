@@ -4,6 +4,7 @@ namespace App\Shared\Domain;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 abstract class AbstractBaseRequest
@@ -14,11 +15,26 @@ abstract class AbstractBaseRequest
     {
         $this->validator = $validator;
 
-        $this->createProperty($this, $this->getRequest()->toArray());
+        $this->fillSelfRequestParams();
 
         if ($this->autoValidateRequest()) {
             $this->validate();
         }
+    }
+
+    protected function fillSelfRequestParams()
+    {
+        $request = $this->getRequest();
+        $requestData = null;
+
+        if($request->request->all()){
+            $requestData = $request->request->all();
+        } else {
+            $requestData = $request->toArray();
+        }
+
+        return $this->createProperty($this, $requestData);
+
     }
 
     protected function createProperty(object $ctx, array $data): object
@@ -43,7 +59,7 @@ abstract class AbstractBaseRequest
         return true;
     }
 
-    public function validate(object $dto = null): array|object
+    public function validate(): Request
     {
         $errors = $this->validator->validate($this);
         $messages = ['message' => 'validation_failed', 'errors' => []];
@@ -61,10 +77,6 @@ abstract class AbstractBaseRequest
             $response->send();
 
             exit();
-        }
-
-        if (!is_null($dto)) {
-            return $this->createProperty($dto, $this->getRequest()->toArray());
         }
 
         return $this->getRequest();

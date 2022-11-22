@@ -8,6 +8,7 @@ use App\Car\Infrastructure\Request\CreateRequest;
 use App\Car\Infrastructure\Resource\CarResource;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,10 +21,15 @@ class LessorCarController extends AbstractController
     }
 
     #[Route('/api/lessor/cars/', methods: ['POST'])]
-    public function store(CreateRequest $request):JsonResponse
+    public function store(Request $request):JsonResponse
     {
-        $data = $request->validate()->toArray();
+        $data = $request;
+
+        dd($request->files->get('image'));
+//        return $this->json([json_encode($request->files->get('image'))]);
+
         $user = $this->getUser();
+
 
         $carId = $this->carService->create($data, $user);
 

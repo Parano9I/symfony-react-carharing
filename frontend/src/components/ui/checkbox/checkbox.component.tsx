@@ -2,24 +2,13 @@ import { ChangeEvent, FC, useState } from 'react';
 
 interface CheckboxProps {
   name: string;
-  value: string;
   label: string;
+  value?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  checked?: boolean;
 }
 
-const Checkbox: FC<CheckboxProps> = ({
-  name,
-  label,
-  value,
-  onChange,
-  checked = false
-}) => {
-  const [isChecked, setIsChecked] = useState(checked);
-
+const Checkbox: FC<CheckboxProps> = ({ name, label, onChange, value }) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setIsChecked(!isChecked);
-
     if (onChange) {
       onChange(event);
     }
@@ -32,9 +21,8 @@ const Checkbox: FC<CheckboxProps> = ({
         className="peer"
         type="checkbox"
         name={name}
-        id={name}
         value={value}
-        checked={isChecked}
+        id={name}
       />
       <label className="p-1" htmlFor={name}>
         {label}

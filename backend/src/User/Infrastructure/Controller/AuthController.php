@@ -9,6 +9,7 @@ use App\User\Infrastructure\Resource\UserResource;
 use Gesdinet\JWTRefreshTokenBundle\Exception\UnknownUserFromRefreshTokenException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Exception\InvalidPasswordException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
@@ -26,7 +27,7 @@ class AuthController extends AbstractController
     #[Route('/api/auth/login', methods: ['POST'])]
     public function login(LoginRequest $request, UserResource $resource): JsonResponse
     {
-        $credentials = $request->validate()->toArray();
+        $credentials = $request->validate()->request->all();
 
         try {
             $user = $this->userService->getByEmail($credentials['email']);
