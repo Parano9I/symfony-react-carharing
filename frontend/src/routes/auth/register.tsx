@@ -24,19 +24,20 @@ interface RegisterFormData {
   phone: string;
   password: string;
   confirm_password: string;
+  is_lessor: boolean;
 }
 
 const Register: FC<RegisterPageProps> = ({}) => {
-  const { handleHookSubmit, handleInputChange } = useFormData<RegisterFormData>(
-    {
+  const { handleHookSubmit, handleInputChange, handleInputChecked } =
+    useFormData<RegisterFormData>({
       first_name: '',
       last_name: '',
       email: '',
       phone: '',
       password: '',
-      confirm_password: ''
-    }
-  );
+      confirm_password: '',
+      is_lessor: false
+    });
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -120,9 +121,9 @@ const Register: FC<RegisterPageProps> = ({}) => {
               />
               <div className="col-span-2">
                 <Checkbox
-                  name="isLessor"
-                  value="true"
+                  name="is_lessor"
                   label="I want to rent cars"
+                  onChange={handleInputChecked}
                 />
               </div>
               <button

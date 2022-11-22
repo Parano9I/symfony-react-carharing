@@ -9,7 +9,9 @@ import { store } from '../../../store';
 export const createUser = async (
   data: FormData
 ): Promise<UserLoginResponseInterface> => {
-  const response = await httpClient.post('/user', data);
+  const response = await httpClient.post('/user', data, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
   const result = response.data;
 
   const user: UserInterface = result.user;

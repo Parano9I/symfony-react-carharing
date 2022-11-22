@@ -14,5 +14,5 @@ class CreateUserDTO
 
     public string $password;
 
-    public ?bool $isLessor = false;
+    public bool $isLessor;
 }
